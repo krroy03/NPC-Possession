@@ -19,8 +19,13 @@ public class PossessionMechanic : MonoBehaviour {
 	public float timeNeeded;
 	private float fillAmount = 0.02f;
 	private float lookTime = 0f;
+
+	private TransitionEffect transition;
+
 	// Use this for initialization
 	void Start () {
+
+		transition = this.gameObject.GetComponent<TransitionEffect> ();
 		PossessNewNPC (currentNPC);
 		npcList = GameObject.Find ("NPCs").transform;
 	}
@@ -105,6 +110,7 @@ public class PossessionMechanic : MonoBehaviour {
 		}
 
 		shifting = true;
+		transition.StartFX ();
 		currentNPC = npc;
 
 	}
@@ -137,6 +143,7 @@ public class PossessionMechanic : MonoBehaviour {
 		} else {
 			// we have reached our destination 
 			shifting = false; 
+			transition.EndFX ();
 			parentNPCToCam (currentNPC);
 		}
 	}
