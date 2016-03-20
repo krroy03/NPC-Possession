@@ -10,7 +10,7 @@ public class PossessionMechanic : MonoBehaviour {
 	private Transform npcList; 
 
 	// variables for shift teleporting 
-
+	public AudioSource moveSound;
 	public float shiftSpeed = 1f; 
 	private bool shifting = false; 
 	private float shiftStopDist = 0.01f;
@@ -114,6 +114,7 @@ public class PossessionMechanic : MonoBehaviour {
 		oldPos = head.transform.position;
 		transition.StartFX ();
 		currentNPC = npc;
+		moveSound.Play ();
 
 	}
 
