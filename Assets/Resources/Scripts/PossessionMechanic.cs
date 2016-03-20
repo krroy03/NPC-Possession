@@ -14,6 +14,7 @@ public class PossessionMechanic : MonoBehaviour {
 	public float shiftSpeed = 1f; 
 	private bool shifting = false; 
 	private float shiftStopDist = 0.01f;
+	private Vector3 oldPos = Vector3.zero;
 
 	// variables for looking at an NPC
 	public float timeNeeded;
@@ -26,7 +27,7 @@ public class PossessionMechanic : MonoBehaviour {
 	void Start () {
 
 		transition = this.gameObject.GetComponent<TransitionEffect> ();
-		PossessNewNPC (currentNPC);
+		parentNPCToCam (currentNPC);
 		npcList = GameObject.Find ("NPCs").transform;
 	}
 	
@@ -110,6 +111,7 @@ public class PossessionMechanic : MonoBehaviour {
 		}
 
 		shifting = true;
+		oldPos = head.transform.position;
 		transition.StartFX ();
 		currentNPC = npc;
 
@@ -144,6 +146,7 @@ public class PossessionMechanic : MonoBehaviour {
 			// we have reached our destination 
 			shifting = false; 
 			transition.EndFX ();
+			TurnCamToFaceLastPos (pos);
 			parentNPCToCam (currentNPC);
 		}
 	}
@@ -156,6 +159,12 @@ public class PossessionMechanic : MonoBehaviour {
 		Vector3 newCenter = pos;
 		newCenter = newCenter - head.localPosition;
 		return newCenter;
+	}
+
+	private void TurnCamToFaceLastPos(Vector3 curPos) {
+
+		var rotation = Quaternion.LookRotation (oldPos - curPos, Vector3.up);
+		head.transform.rotation = Quaternion.Slerp (head.transform.rotation, rotation, 1f);
 	}
 
 	// used for debugging without Vive
