@@ -63,6 +63,7 @@ public class TransitionEffect : MonoBehaviour {
 	}
 
     IEnumerator StartBlur() {
+		motionBlur.enabled = true;
 		float gap = (BLUR_MAX - BLUR_MIN) / FX_ALT_TIME * Time.fixedDeltaTime;
         while (motionBlur.blurAmount < BLUR_MAX) {
 			motionBlur.blurAmount += gap;
@@ -79,6 +80,7 @@ public class TransitionEffect : MonoBehaviour {
             yield return new WaitForFixedUpdate();
         }
         motionBlur.blurAmount = BLUR_MIN;
+		motionBlur.enabled = false;
     }
 
 

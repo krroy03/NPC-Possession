@@ -22,7 +22,7 @@ public class NPC : MonoBehaviour {
 		lookingAtPlayer = true;
 		player = playerNew.transform;
 		var rotation = Quaternion.LookRotation (player.position - this.transform.position, Vector3.up);
-		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime);
+		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime*2f);
 	}
 
 
