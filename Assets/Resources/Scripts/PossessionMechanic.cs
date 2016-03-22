@@ -149,7 +149,12 @@ public class PossessionMechanic : MonoBehaviour {
 			// we have reached our destination 
 			shifting = false; 
 			transition.EndFX ();
-			TurnCamToFaceLastPos (pos);
+
+			// Either turn cam to face old npc 
+			// OR turn cam to face current NPC pov
+
+			//TurnCamToFaceLastPos (pos);
+			TurnCamToFaceNewPOV ();
 			parentNPCToCam (currentNPC);
 		}
 	}
@@ -164,9 +169,17 @@ public class PossessionMechanic : MonoBehaviour {
 		return newCenter;
 	}
 
+
+	// turns cam to face the old npc we came from
 	private void TurnCamToFaceLastPos(Vector3 curPos) {
 
 		var rotation = Quaternion.LookRotation (oldPos - curPos, Vector3.up);
+		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
+	}
+
+	// rotates cam to face the current NPCs POV
+	private void TurnCamToFaceNewPOV() {
+		var rotation = Quaternion.LookRotation (currentNPC.transform.forward, Vector3.up);
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
 	}
 
