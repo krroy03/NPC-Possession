@@ -23,6 +23,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 	private TransitionEffect transition;
 
+
 	// Use this for initialization
 	void Start () {
 
@@ -140,14 +141,15 @@ public class PossessionMechanic : MonoBehaviour {
 		Vector3 newCenter = GetNewCenterOfTrackingSpace (pos);
 		Vector3 dir = newCenter - this.transform.position;
 		dir.y = 0f;
+
 		if (dir.magnitude > shiftStopDist) {
 			// still moving to our destination
-			this.transform.Translate (dir * shiftSpeed * Time.deltaTime);
+			this.transform.Translate (dir * shiftSpeed * Time.deltaTime, Space.World);
 		} else {
 			// we have reached our destination 
 			shifting = false; 
 			transition.EndFX ();
-			//TurnCamToFaceLastPos (pos);
+			TurnCamToFaceLastPos (pos);
 			parentNPCToCam (currentNPC);
 		}
 	}
