@@ -107,28 +107,33 @@ public class PossessionMechanic : MonoBehaviour {
 	 * - make it not visible anymore
 	 * */
 	public void PossessNewNPC(GameObject npc) {
+
+		oldPos = head.transform.position;
+
 		if (currentNPC) {
 			unparentNPCFromCam (currentNPC);
 		}
 
 		shifting = true;
-		oldPos = head.transform.position;
-		transition.StartFX ();
 		currentNPC = npc;
+
+		transition.StartFX ();
 		moveSound.Play ();
 
 	}
 
 
 	private void parentNPCToCam(GameObject npc) {
-		npc.transform.SetParent (head);
-		npc.GetComponent<NPC> ().IsPossessed (true);
+		npc.transform.SetParent (this.transform);
+		npc.GetComponent<NPC> ().IsPossessed (true, head);
 	}
 
 	private void unparentNPCFromCam(GameObject npc) {
 		npc.transform.SetParent (npcList);
-		npc.GetComponent<NPC> ().IsPossessed (false);
+		npc.GetComponent<NPC> ().IsPossessed (false, null);
 	}
+
+
 
 
 
@@ -153,8 +158,8 @@ public class PossessionMechanic : MonoBehaviour {
 			// Either turn cam to face old npc 
 			// OR turn cam to face current NPC pov
 
-			//TurnCamToFaceLastPos (pos);
-			TurnCamToFaceNewPOV ();
+			TurnCamToFaceDir (oldPos - pos);
+			//TurnCamToFaceDir (currentNPC.transform.forward);
 			parentNPCToCam (currentNPC);
 		}
 	}
@@ -170,18 +175,36 @@ public class PossessionMechanic : MonoBehaviour {
 	}
 
 
+
 	// turns cam to face the old npc we came from
-	private void TurnCamToFaceLastPos(Vector3 curPos) {
+	private void TurnCamToFaceDir(Vector3 lookDir) {
 
-		var rotation = Quaternion.LookRotation (oldPos - curPos, Vector3.up);
+		var rotation = Quaternion.LookRotation (lookDir, Vector3.up);
+		// change x and z rotation values to 0 because tracking space shouldn't rotate on those axes. 
+		rotation.x = 0f;
+		rotation.z = 0f;
+
+		Vector3 temp = transform.position;
+		head.rotation = Quaternion.identity;
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
+		// now move the tracking space again to make up for the rotation shift in position of the head
+		temp.x += head.localPosition.x; 
+		temp.z += head.localPosition.z; 
+		transform.position = temp;
+
+		/*
+		Vector3 temp = head.position;
+		head.parent.position = temp;
+		head.localPosition = Vector3.zero;
+
+		// now rotate headContainer
+		head.parent.rotation = Quaternion.Slerp(head.parent.rotation, rotation, 1f);
+		head.localRotation = Quaternion.identity;
+
+*/
 	}
 
-	// rotates cam to face the current NPCs POV
-	private void TurnCamToFaceNewPOV() {
-		var rotation = Quaternion.LookRotation (currentNPC.transform.forward, Vector3.up);
-		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
-	}
+
 
 	// used for debugging without Vive
 	private GameObject GetRandomNPC(){
@@ -201,5 +224,15 @@ public class PossessionMechanic : MonoBehaviour {
 		return child;
 
 	}
+
+	// some helper methods for future
+	private Vector3 RotatePointAroundPivot(Vector3 point,Vector3 pivot,Vector3 angles) {
+		Vector3 dir = point - pivot; // get point direction relative to pivot 
+		dir = Quaternion.Euler(angles) * dir; // rotate it 
+		point = dir + pivot; // calculated rotated point;
+		return point; 
+	}
+
+
 
 }

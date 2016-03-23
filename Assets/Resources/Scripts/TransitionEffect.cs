@@ -5,8 +5,8 @@ using UnityStandardAssets.ImageEffects;
 
 public class TransitionEffect : MonoBehaviour {
 
-    public Camera cam;
-    public MotionBlur motionBlur;
+	public Camera cam;
+	public MotionBlur motionBlur;
 	public SelectiveGrayScale grayScale; 
 
 	private static float BLUR_MIN = 0f;
@@ -17,7 +17,7 @@ public class TransitionEffect : MonoBehaviour {
 	private static float GRAYSCALE_MIN = 0f;
 	private static float GRAYSCALE_MAX = 1f;
 
-	private static float FX_ALT_TIME = 0.5f;
+	private static float FX_ALT_TIME = 1f;
 	private static float FX_HOLD_TIME = 1f;
 
 	private bool _isSuperCoolFX = false;
@@ -27,22 +27,22 @@ public class TransitionEffect : MonoBehaviour {
 			StartFX ();
 		if (Input.GetKeyDown (KeyCode.P))
 			EndFX ();
-    }
+	}
 
-    void Start() {
-        motionBlur.blurAmount = 0f;
-    }
+	void Start() {
+		motionBlur.blurAmount = 0f;
+	}
 	public void StartFX() {
 		if (!_isSuperCoolFX) {
 
 			_isSuperCoolFX = true;
 
 			StopCoroutine ("EndBlur");
-			StopCoroutine ("DecreaseCamView");
+			//StopCoroutine ("DecreaseCamView");
 			StopCoroutine ("EndGrayScale");
 
 			StartCoroutine ("StartBlur");
-			StartCoroutine ("IncreasCamView");
+			//StartCoroutine ("IncreasCamView");
 			StartCoroutine("StartGrayScale");
 		}
 	}
@@ -53,53 +53,53 @@ public class TransitionEffect : MonoBehaviour {
 			_isSuperCoolFX = false;
 
 			StopCoroutine ("StartBlur");
-			StopCoroutine ("IncreaseCamView");
+			//StopCoroutine ("IncreaseCamView");
 			StopCoroutine("StartGrayScale");
 
 			StartCoroutine ("EndBlur");
-			StartCoroutine ("DecreaseCamView");
+			//StartCoroutine ("DecreaseCamView");
 			StartCoroutine ("EndGrayScale");
 		}
 	}
 
-    IEnumerator StartBlur() {
+	IEnumerator StartBlur() {
 		motionBlur.enabled = true;
 		float gap = (BLUR_MAX - BLUR_MIN) / FX_ALT_TIME * Time.fixedDeltaTime;
-        while (motionBlur.blurAmount < BLUR_MAX) {
+		while (motionBlur.blurAmount < BLUR_MAX) {
 			motionBlur.blurAmount += gap;
-            yield return new WaitForFixedUpdate();
-        }
+			yield return new WaitForFixedUpdate();
+		}
 		yield return new WaitForSeconds (FX_HOLD_TIME);
 		EndFX ();
-    }
+	}
 
-    IEnumerator EndBlur() {
+	IEnumerator EndBlur() {
 		float gap = (BLUR_MAX - BLUR_MIN) / FX_ALT_TIME * Time.fixedDeltaTime;
-        while (motionBlur.blurAmount > BLUR_MIN) {
+		while (motionBlur.blurAmount > BLUR_MIN) {
 			motionBlur.blurAmount -= gap;
-            yield return new WaitForFixedUpdate();
-        }
-        motionBlur.blurAmount = BLUR_MIN;
+			yield return new WaitForFixedUpdate();
+		}
+		motionBlur.blurAmount = BLUR_MIN;
 		motionBlur.enabled = false;
-    }
+	}
 
 
-    IEnumerator IncreasCamView() {
+	IEnumerator IncreasCamView() {
 		float gap = (CAM_MAX - CAM_MIN) / FX_ALT_TIME * Time.fixedDeltaTime;
-        while (cam.fieldOfView < CAM_MAX) {
-            cam.fieldOfView += gap;
-            yield return new WaitForFixedUpdate();
-        }
-    }
+		while (cam.fieldOfView < CAM_MAX) {
+			cam.fieldOfView += gap;
+			yield return new WaitForFixedUpdate();
+		}
+	}
 
-    IEnumerator DecreaseCamView() {
+	IEnumerator DecreaseCamView() {
 		float gap = (CAM_MAX - CAM_MIN) / FX_ALT_TIME * Time.fixedDeltaTime;
-        while (cam.fieldOfView > CAM_MIN) {
-            cam.fieldOfView -= gap;
-            yield return new WaitForFixedUpdate();
-        }
-        cam.fieldOfView = CAM_MIN;
-    }
+		while (cam.fieldOfView > CAM_MIN) {
+			cam.fieldOfView -= gap;
+			yield return new WaitForFixedUpdate();
+		}
+		cam.fieldOfView = CAM_MIN;
+	}
 
 	IEnumerator StartGrayScale() {
 		grayScale.enabled = true;
