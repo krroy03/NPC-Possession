@@ -6,10 +6,16 @@ public class NPC : MonoBehaviour {
 	public bool visible = true;
 
 	private bool lookingAtPlayer = false;
-	private Transform player;
+	public Transform player;
 	private Quaternion originalRot; 
+
+	private Animator anim;
+	public HeadLookController headlook;
+
 	void Start() {
 		originalRot = this.transform.rotation;
+
+		anim = GetComponent <Animator> ();
 	}
 
 	void Update() {
@@ -18,13 +24,20 @@ public class NPC : MonoBehaviour {
 		}
 	}
 
+	void FixedUpdate ()
+	{
+		//Animating();
+	}
+
 	public void LookAtPlayer(GameObject playerNew) {
 		lookingAtPlayer = true;
 		player = playerNew.transform;
+		headlook.target = player.position;
+		/*
 		var rotation = Quaternion.LookRotation (player.position - this.transform.position, Vector3.up);
 		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime*2f);
+		*/
 	}
-
 
 
 	public void LookAwayFromPlayer() {
@@ -44,4 +57,11 @@ public class NPC : MonoBehaviour {
 			renderer.enabled = visible;
 		}
 	}
+	/*
+	private void Animating ()
+	{
+		bool walking = 
+		anim.SetBool("IsWalking",walking);
+	}
+	*/
 }
