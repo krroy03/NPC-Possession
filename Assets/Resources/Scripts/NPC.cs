@@ -12,6 +12,8 @@ public class NPC : MonoBehaviour {
 	private Animator anim;
 	public HeadLookController headlook;
 
+	private Transform headTarget; 
+
 	void Start() {
 		originalRot = this.transform.rotation;
 
@@ -19,8 +21,12 @@ public class NPC : MonoBehaviour {
 	}
 
 	void Update() {
-		if (!lookingAtPlayer) {
+		if (!lookingAtPlayer && visible) {
 			this.transform.rotation = Quaternion.Slerp (this.transform.rotation, originalRot, Time.deltaTime);
+		}
+
+		if (headTarget && !visible) {
+			FollowHead ();
 		}
 	}
 
@@ -32,11 +38,11 @@ public class NPC : MonoBehaviour {
 	public void LookAtPlayer(GameObject playerNew) {
 		lookingAtPlayer = true;
 		player = playerNew.transform;
-		headlook.target = player.position;
-		/*
+		//headlook.target = player.position;
+
 		var rotation = Quaternion.LookRotation (player.position - this.transform.position, Vector3.up);
 		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime*2f);
-		*/
+	
 	}
 
 
@@ -45,9 +51,10 @@ public class NPC : MonoBehaviour {
 	}
 
 
-	public void IsPossessed (bool possessed) {
+	public void IsPossessed (bool possessed, Transform head) {
 		visible = !possessed;
 		UpdateVisibility ();
+		headTarget = head;
 	}
 
 
@@ -64,4 +71,16 @@ public class NPC : MonoBehaviour {
 		anim.SetBool("IsWalking",walking);
 	}
 	*/
+
+	private void FollowHead() {
+		Vector3 newPos = headTarget.position;
+		newPos.y = 0f;
+		this.transform.position = newPos;
+
+		Quaternion newRot = headTarget.rotation;
+		newRot.x = 0f;
+		newRot.z = 0f;
+		this.transform.rotation = newRot;
+	}
+
 }
