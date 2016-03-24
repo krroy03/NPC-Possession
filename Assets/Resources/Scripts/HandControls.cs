@@ -5,6 +5,7 @@ public class HandControls : MonoBehaviour {
 	private int deviceIndex; 
 	private bool movingObj = false;
 	private Transform currentObj;
+	private Animator handAnimator;
 
 	public bool left;
 
@@ -14,6 +15,8 @@ public class HandControls : MonoBehaviour {
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Leftmost);
 		else
 			deviceIndex = SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Rightmost);
+
+		handAnimator = gameObject.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -24,6 +27,8 @@ public class HandControls : MonoBehaviour {
 	void MoveObject() {
 
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
+			handAnimator.SetBool("Fist",true);
+			handAnimator.SetBool("Idle",false);
 			if (!movingObj) {
 				Debug.Log("Trigger");
 				if (currentObj) {
@@ -39,6 +44,8 @@ public class HandControls : MonoBehaviour {
 
 	void ReleaseObject() {
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressUp (SteamVR_Controller.ButtonMask.Trigger))) {
+			handAnimator.SetBool("Idle",true);
+			handAnimator.SetBool("Fist",false);
 			if (currentObj && movingObj) {
 				currentObj.parent.SetParent (null);
 				movingObj = false;
