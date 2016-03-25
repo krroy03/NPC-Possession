@@ -99,6 +99,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 	private Vector3 oldCenter = Vector3.zero;
 	private Vector3 newCenter = Vector3.zero;
+
 	/**
 	 * possesses a new NPC.
 	 * - Has to move to that npc. Unparent current NPC from cam, make it visible again
@@ -197,16 +198,14 @@ public class PossessionMechanic : MonoBehaviour {
 		// change x and z rotation values to 0 because tracking space shouldn't rotate on those axes. 
 		rotation.x = 0f;
 		rotation.z = 0f;
-		Debug.Log (rotation.eulerAngles.y);
 
-
+		// rotate tracking space first
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
 
 		// also need to take into account the rotation of the headset currently. 
 		// add that to the rotation of the tracking space. 
 		float yOffset = 360f - head.localRotation.eulerAngles.y;
 		rotation.eulerAngles = new Vector3 (0f, yOffset + rotation.eulerAngles.y, 0f);
-		Debug.Log ("second: " + rotation.eulerAngles.y);
 		
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
 	
@@ -231,14 +230,6 @@ public class PossessionMechanic : MonoBehaviour {
 
 		return child;
 
-	}
-
-	// some helper methods for future
-	private Vector3 RotatePointAroundPivot(Vector3 point,Vector3 pivot,Vector3 angles) {
-		Vector3 dir = point - pivot; // get point direction relative to pivot 
-		dir = Quaternion.Euler(angles) * dir; // rotate it 
-		point = dir + pivot; // calculated rotated point;
-		return point; 
 	}
 
 
