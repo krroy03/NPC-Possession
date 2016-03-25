@@ -197,15 +197,18 @@ public class PossessionMechanic : MonoBehaviour {
 		// change x and z rotation values to 0 because tracking space shouldn't rotate on those axes. 
 		rotation.x = 0f;
 		rotation.z = 0f;
+		Debug.Log (rotation.eulerAngles.y);
+
+
+		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
 
 		// also need to take into account the rotation of the headset currently. 
 		// add that to the rotation of the tracking space. 
-		//float yOffset = head.localRotation.y;
-		//rotation.y -= yOffset;
-
+		float yOffset = 360f - head.localRotation.eulerAngles.y;
+		rotation.eulerAngles = new Vector3 (0f, yOffset + rotation.eulerAngles.y, 0f);
+		Debug.Log ("second: " + rotation.eulerAngles.y);
+		
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
-	
-
 	
 	}
 
