@@ -198,7 +198,11 @@ public class PossessionMechanic : MonoBehaviour {
 		rotation.x = 0f;
 		rotation.z = 0f;
 
-		head.rotation = Quaternion.identity;
+		// also need to take into account the rotation of the headset currently. 
+		// add that to the rotation of the tracking space. 
+		float yOffset = head.localRotation.y;
+		rotation.y -= yOffset;
+
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
 	
 
