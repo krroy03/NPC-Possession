@@ -14,10 +14,13 @@ public class NPC : MonoBehaviour {
 
 	private Transform headTarget; 
 
+	public Vector3 center; 
+
 	void Start() {
 		originalRot = this.transform.rotation;
 
 		anim = GetComponent <Animator> ();
+		center = this.transform.position;
 	}
 
 	void Update() {
@@ -41,6 +44,8 @@ public class NPC : MonoBehaviour {
 		//headlook.target = player.position;
 
 		var rotation = Quaternion.LookRotation (player.position - this.transform.position, Vector3.up);
+		rotation.x = 0f;
+		rotation.z = 0f;
 		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime*2f);
 	
 	}
