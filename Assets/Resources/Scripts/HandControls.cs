@@ -94,6 +94,8 @@ public class HandControls : MonoBehaviour {
 		if (!movingObj) {
 			if (col.gameObject.layer == 8) {
 				currentObj = col.gameObject;
+				MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
+				currentObjMeshRenderer.material.color = Color.blue;
 			}
 		}
 	}
@@ -101,6 +103,8 @@ public class HandControls : MonoBehaviour {
 	void OnTriggerExit(Collider col) {
 		if (!movingObj) {
 			if (col.gameObject.layer == 8) {
+				MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
+				currentObjMeshRenderer.material.color = Color.white;
 				currentObj = null;
 			}
 		}
