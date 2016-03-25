@@ -8,6 +8,7 @@ public class HandControls : MonoBehaviour {
 	Animator handAnimator;
 	Vector3 speed;
 	Vector3 prePos;
+    Vector3 curPos;
 
 	public bool left;
 
@@ -20,20 +21,26 @@ public class HandControls : MonoBehaviour {
 
 		handAnimator = gameObject.GetComponentInChildren<Animator>();
 
-		prePos = transform.position;
+		prePos = this.transform.position;
 		speed = Vector3.zero;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		curPos = this.transform.position;
+        //Debug.Log("pre" + prePos + "cur"+ curPos);
+        speed = 100f * (curPos - prePos) * (1 / Time.deltaTime);
+   
+       // Debug.Log("speedupdate" + speed);
+		prePos = curPos;
+
         MoveObject();
         ReleaseObject();
 	}
 
 	void FixedUpdate () {
-		Vector3 curPos = transform.position;
-		speed = (curPos - prePos) * (1 / Time.fixedDeltaTime);
-		prePos = curPos;
+
 	}
 
 	void MoveObject ()
@@ -72,9 +79,10 @@ public class HandControls : MonoBehaviour {
 				currentObj.transform.SetParent (null);
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
-					rg.AddForce(speed);
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					currentObj.GetComponent<Rigidbody> ().useGravity = true;
+					rg.AddForce(speed);
+					//Debug.Log("speed:"+speed);
 				}
 				movingObj = false;
 				currentObj = null;
