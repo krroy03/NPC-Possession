@@ -44,6 +44,8 @@ public class NPC : MonoBehaviour {
 		//headlook.target = player.position;
 
 		var rotation = Quaternion.LookRotation (player.position - this.transform.position, Vector3.up);
+		rotation.x = 0f;
+		rotation.z = 0f;
 		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime*2f);
 	
 	}
