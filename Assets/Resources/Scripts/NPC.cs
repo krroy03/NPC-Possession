@@ -41,15 +41,18 @@ public class NPC : MonoBehaviour {
 	public void LookAtPlayer(GameObject playerNew) {
 		lookingAtPlayer = true;
 		player = playerNew.transform;
-		//headlook.target = player.position;
+		headlook.target = player.position;
 
-		var rotation = Quaternion.LookRotation (player.position - this.transform.position, Vector3.up);
-		rotation.x = 0f;
-		rotation.z = 0f;
-		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime*2f);
+		//RotateNPC (player.position - this.transform.position);
 	
 	}
 
+	private void RotateNPC(Vector3 lookDir) {
+		var rotation = Quaternion.LookRotation (lookDir, Vector3.up);
+		rotation.x = 0f;
+		rotation.z = 0f;
+		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Time.deltaTime*2f);
+	}
 
 	public void LookAwayFromPlayer() {
 		lookingAtPlayer = false;
