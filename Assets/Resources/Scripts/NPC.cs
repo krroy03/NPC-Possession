@@ -14,10 +14,13 @@ public class NPC : MonoBehaviour {
 
 	private Transform headTarget; 
 
+	public Vector3 center; 
+
 	void Start() {
 		originalRot = this.transform.rotation;
 
 		anim = GetComponent <Animator> ();
+		center = this.transform.position;
 	}
 
 	void Update() {

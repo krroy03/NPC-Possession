@@ -14,7 +14,7 @@ public class PossessionMechanic : MonoBehaviour {
 	public float shiftSpeed = 1f; 
 	private bool shifting = false; 
 	private float shiftStopDist = 0.01f;
-	private Vector3 oldPos = Vector3.zero;
+
 
 	// variables for looking at an NPC
 	public float timeNeeded;
@@ -97,7 +97,8 @@ public class PossessionMechanic : MonoBehaviour {
 		}
 	}
 
-
+	private Vector3 oldCenter = Vector3.zero;
+	private Vector3 newCenter = Vector3.zero;
 	/**
 	 * possesses a new NPC.
 	 * - Has to move to that npc. Unparent current NPC from cam, make it visible again
@@ -108,14 +109,18 @@ public class PossessionMechanic : MonoBehaviour {
 	 * */
 	public void PossessNewNPC(GameObject npc) {
 
-		oldPos = head.transform.position;
+		oldCenter = currentNPC.transform.GetComponent<NPC> ().center;
 
 		if (currentNPC) {
+			// unpossess npc
 			unparentNPCFromCam (currentNPC);
+			// reset old npc position
+			currentNPC.transform.position = oldCenter;
 		}
-
+			
 		shifting = true;
 		currentNPC = npc;
+		newCenter = GetNewCenterOfTrackingSpace (currentNPC.transform.position);
 
 		transition.StartFX ();
 		moveSound.Play ();
@@ -143,7 +148,6 @@ public class PossessionMechanic : MonoBehaviour {
 	 * */
 
 	private void ShiftTeleportToNewPos(Vector3 pos) {
-		Vector3 newCenter = GetNewCenterOfTrackingSpace (pos);
 		Vector3 dir = newCenter - this.transform.position;
 		dir.y = 0f;
 
@@ -155,10 +159,11 @@ public class PossessionMechanic : MonoBehaviour {
 			shifting = false; 
 			transition.EndFX ();
 
+			RecenterTrackingSpace (currentNPC.transform.position);
 			// Either turn cam to face old npc 
 			// OR turn cam to face current NPC pov
 
-			TurnCamToFaceDir (oldPos - pos);
+			TurnCamToFaceDir (oldCenter - pos);
 			//TurnCamToFaceDir (currentNPC.transform.forward);
 			parentNPCToCam (currentNPC);
 		}
@@ -170,11 +175,20 @@ public class PossessionMechanic : MonoBehaviour {
 	// subtract that from the dir vector
 	private Vector3 GetNewCenterOfTrackingSpace(Vector3 pos) {
 		Vector3 newCenter = pos;
-		newCenter = newCenter - head.localPosition;
+		
+		Vector3 temp = Vector3.zero;
+		temp.x = (oldCenter.x - head.position.x);
+		temp.z = (oldCenter.z - head.position.z);
+
+		newCenter = newCenter + temp;
 		return newCenter;
 	}
 
 
+	private void RecenterTrackingSpace(Vector3 pos) {
+		this.transform.position = pos;
+		newCenter = pos;
+	}
 
 	// turns cam to face the old npc we came from
 	private void TurnCamToFaceDir(Vector3 lookDir) {
@@ -184,24 +198,11 @@ public class PossessionMechanic : MonoBehaviour {
 		rotation.x = 0f;
 		rotation.z = 0f;
 
-		Vector3 temp = transform.position;
 		head.rotation = Quaternion.identity;
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
-		// now move the tracking space again to make up for the rotation shift in position of the head
-		temp.x += head.localPosition.x; 
-		temp.z += head.localPosition.z; 
-		transform.position = temp;
+	
 
-		/*
-		Vector3 temp = head.position;
-		head.parent.position = temp;
-		head.localPosition = Vector3.zero;
-
-		// now rotate headContainer
-		head.parent.rotation = Quaternion.Slerp(head.parent.rotation, rotation, 1f);
-		head.localRotation = Quaternion.identity;
-
-*/
+	
 	}
 
 
