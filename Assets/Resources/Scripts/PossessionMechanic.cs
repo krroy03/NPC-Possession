@@ -57,13 +57,13 @@ public class PossessionMechanic : MonoBehaviour {
 				if (hit.collider.tag == "NPC") {
 					lookingAt = hit.collider.gameObject;
 					lookTime += fillAmount;
-					//UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
+					UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 
 					if (lookTime >= timeNeeded) {
 
 						// reset circle
 						lookTime = 0f;
-						//UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
+						UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 
 						// we can possess npc
 						PossessNewNPC (hit.collider.gameObject);
@@ -77,7 +77,7 @@ public class PossessionMechanic : MonoBehaviour {
 					// if we hit another collider, reset too
 					lookTime = 0f;
 
-					//UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
+					UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 					if (lookingAt) {
 						Debug.Log("gets here");
 						lookingAt.GetComponent<NPC> ().LookAwayFromPlayer ();
@@ -88,7 +88,7 @@ public class PossessionMechanic : MonoBehaviour {
 				// if we look away from trigger, then reset time 
 
 				lookTime = 0f;
-				//UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
+				UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 				if (lookingAt) {
 					lookingAt.GetComponent<NPC> ().LookAwayFromPlayer ();
 					lookingAt = null;
