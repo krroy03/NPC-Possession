@@ -21,6 +21,9 @@ public class NPC : MonoBehaviour {
 
 		anim = GetComponent <Animator> ();
 		center = this.transform.position;
+
+		//headlook.headUpVector.y = this.transform.position.y;
+		//Debug.Log("headupvector:" + headlook.headUpVector);
 	}
 
 	void Update() {
@@ -42,7 +45,7 @@ public class NPC : MonoBehaviour {
 		lookingAtPlayer = true;
 		player = playerNew.transform;
 		headlook.target = player.position;
-
+		headlook.target.y = 50;
 		//RotateNPC (player.position - this.transform.position);
 	
 	}
