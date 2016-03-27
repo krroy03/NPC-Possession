@@ -40,7 +40,8 @@ public class HeadLookController : MonoBehaviour {
 		if (rootNode == null) {
 			rootNode = transform;
 		}
-		
+
+
 		// Setup segments
 		foreach (BendingSegment segment in segments) {
 			Quaternion parentRot = segment.firstTransform.parent.rotation;

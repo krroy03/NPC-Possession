@@ -71,6 +71,11 @@ public class NPC : MonoBehaviour {
 		foreach (MeshRenderer renderer in renderers) {
 			renderer.enabled = visible;
 		}
+
+		SkinnedMeshRenderer[] renderers2 = this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer> ();
+		foreach (SkinnedMeshRenderer renderer in renderers2) {
+			renderer.enabled = visible;
+		}
 	}
 	/*
 	private void Animating ()
@@ -82,7 +87,7 @@ public class NPC : MonoBehaviour {
 
 	private void FollowHead() {
 		Vector3 newPos = headTarget.position;
-		newPos.y = 0f;
+		newPos.y = center.y;
 		this.transform.position = newPos;
 
 		Quaternion newRot = headTarget.rotation;
