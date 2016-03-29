@@ -5,16 +5,17 @@ public class NPC : MonoBehaviour {
 
 	public bool visible = true;
 
-	private bool lookingAtPlayer = false;
 	public Transform player;
+	public HeadLookController headlook;
+	public Vector3 center; 
+
 	private Quaternion originalRot; 
 
 	private Animator anim;
-	public HeadLookController headlook;
 
-	private Transform headTarget; 
-
-	public Vector3 center; 
+	private Transform headTarget;
+	 
+	private bool lookingAtPlayer = false;
 
 	void Start() {
 		originalRot = this.transform.rotation;
@@ -22,11 +23,13 @@ public class NPC : MonoBehaviour {
 		anim = GetComponent <Animator> ();
 		center = this.transform.position;
 
+
 		//headlook.headUpVector.y = this.transform.position.y;
 		//Debug.Log("headupvector:" + headlook.headUpVector);
 	}
 
-	void Update() {
+	void Update ()
+	{
 		if (!lookingAtPlayer && visible) {
 			this.transform.rotation = Quaternion.Slerp (this.transform.rotation, originalRot, Time.deltaTime);
 		}
@@ -98,5 +101,26 @@ public class NPC : MonoBehaviour {
 		newRot.z = 0f;
 		this.transform.rotation = newRot;
 	}
+
+	//wait for a while before doing anything
+	IEnumerator Wait ()
+	{
+		yield return new WaitForSeconds(1);
+	}
+
+	//when throw object to awake NPCs
+	private void OnTriggerEnter (Collider col)
+	{
+		if (col.gameObject.layer == 8) {
+			//wait for a while
+			Wait();
+			ObjectThrow obj = col.gameObject.GetComponent<ObjectThrow> ();
+			Debug.Log(obj.npc.ToString() + "throw at me!");
+			LookAtPlayer(obj.npc);
+			}
+			//lookingAt.GetComponent<NPC> ().LookAtPlayer (currentNPC);
+					
+	}
+	
 
 }

@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class HandControls : MonoBehaviour {
-	private int deviceIndex; 
-	private bool movingObj = false;
-	private GameObject currentObj;
+	int deviceIndex; 
+	bool movingObj = false;
+	GameObject currentObj;
 	Animator handAnimator;
 	Vector3 speed;
 	Vector3 prePos;
@@ -29,10 +29,7 @@ public class HandControls : MonoBehaviour {
 	void Update () {
 
 		curPos = this.transform.position;
-        //Debug.Log("pre" + prePos + "cur"+ curPos);
         speed = 100f * (curPos - prePos) * (1 / Time.deltaTime);
-   
-       // Debug.Log("speedupdate" + speed);
 		prePos = curPos;
 
         MoveObject();
