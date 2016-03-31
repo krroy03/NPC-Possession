@@ -36,6 +36,10 @@ public class HandControls : MonoBehaviour {
         ReleaseObject();
 	}
 
+	void FixedUpdate () {
+
+	}
+
 	void MoveObject ()
 	{
 		if (left)
