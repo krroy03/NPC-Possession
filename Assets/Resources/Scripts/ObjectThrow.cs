@@ -3,9 +3,9 @@ using System.Collections;
 
 public class ObjectThrow : MonoBehaviour {
 
-	private GameObject cam;
-	private Transform npcTransform;
-	public GameObject npc;
+	private GameObject cam = null;
+	private Transform npcTransform = null;
+	public GameObject npc = null;
 
 	// Use this for initialization
 	void Start () {

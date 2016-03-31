@@ -113,11 +113,13 @@ public class NPC : MonoBehaviour {
 	{
 		if (col.gameObject.layer == 8) {
 			//wait for a while
-			Wait();
+			Wait ();
 			ObjectThrow obj = col.gameObject.GetComponent<ObjectThrow> ();
-			Debug.Log(obj.npc.ToString() + "throw at me!");
-			LookAtPlayer(obj.npc);
+			Debug.Log (obj.npc.ToString () + "throw at me!");
+			if (obj.npc) {
+				LookAtPlayer (obj.npc);
 			}
+		}
 			//lookingAt.GetComponent<NPC> ().LookAtPlayer (currentNPC);
 					
 	}
