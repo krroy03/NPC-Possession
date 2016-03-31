@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour {
 			if (mInstance)
 				return mInstance;
 			else {
-				mInstance = GameObject.Find ("Canvas").GetComponent<UIManager> ();
+				mInstance = GameObject.Find ("PlayerUI").GetComponent<UIManager> ();
 				return mInstance;
 			}
 		}
