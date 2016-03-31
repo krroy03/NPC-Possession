@@ -40,7 +40,7 @@ public class PossessionMechanic : MonoBehaviour {
 			ShiftTeleportToNewPos (currentNPC.transform.position);
 		}
 		if (Input.GetMouseButton (0)) {
-			PossessNewNPC (GetRandomNPC());
+			//PossessNewNPC (GetRandomNPC());
 		}
 	}
 
