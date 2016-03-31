@@ -74,11 +74,13 @@ public class TransitionEffect : MonoBehaviour {
 	}
 
 	IEnumerator EndBlur() {
+		motionBlur.blurAmount = BLUR_MIN;
 		float gap = (BLUR_MAX - BLUR_MIN) / FX_ALT_TIME * Time.fixedDeltaTime;
 		while (motionBlur.blurAmount > BLUR_MIN) {
 			motionBlur.blurAmount -= gap;
 			yield return new WaitForFixedUpdate();
 		}
+
 		motionBlur.blurAmount = BLUR_MIN;
 		motionBlur.enabled = false;
 	}
@@ -113,11 +115,13 @@ public class TransitionEffect : MonoBehaviour {
 	}
 
 	IEnumerator EndGrayScale() {
+		grayScale.rampOffset = GRAYSCALE_MIN;
 		float gap = (GRAYSCALE_MAX - GRAYSCALE_MIN) / FX_ALT_TIME * Time.fixedDeltaTime;
 		while (grayScale.rampOffset > GRAYSCALE_MIN) {
 			grayScale.rampOffset-= gap;
 			yield return new WaitForFixedUpdate();
 		}
+
 		grayScale.rampOffset = GRAYSCALE_MIN;
 		grayScale.enabled = false;
 	}
