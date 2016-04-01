@@ -9,6 +9,9 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 
 	private float rotationScale = 100.0f;
 
+	private float minX = 0.01f;
+	private float minZ = 0.01f;
+
 	// Use this for initialization
 	void Start () {
 		oldPos = player.transform.localPosition;
@@ -42,13 +45,15 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 
 		// get difference in local position to find out if player moved
 		float xDiff = newPos.x - oldPos.x;
-		float yDiff = newPos.y - oldPos.y;
+
 		float zDiff = newPos.z - oldPos.z;
+
+
 		Vector3 temp = new Vector3 (-zDiff, 0f , xDiff);
-
-		planet.Rotate (temp * rotationScale);
+		temp *= rotationScale;
+	
+		planet.Rotate (temp,Space.World);
 		oldPos = newPos;
-
 
 	
 	}
