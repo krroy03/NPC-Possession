@@ -108,14 +108,14 @@ public class NPC : MonoBehaviour {
 		yield return new WaitForSeconds(1);
 	}
 
-	//when throw object to awake NPCs
+	//when throw object to attract NPC's attention
 	private void OnTriggerEnter (Collider col)
-	{
+	{	
+	    Debug.Log("collider name");
 		if (col.gameObject.layer == 8) {
 			//wait for a while
 			Wait ();
 			ObjectThrow obj = col.gameObject.GetComponent<ObjectThrow> ();
-			Debug.Log (obj.npc.ToString () + "throw at me!");
 			if (obj.npc) {
 				LookAtPlayer (obj.npc);
 			}
@@ -123,6 +123,7 @@ public class NPC : MonoBehaviour {
 			//lookingAt.GetComponent<NPC> ().LookAtPlayer (currentNPC);
 					
 	}
-	
+
+	//when objects hit an NPC, you teleport to him
 
 }
