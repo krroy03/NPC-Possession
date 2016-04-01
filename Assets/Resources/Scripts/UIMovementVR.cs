@@ -38,7 +38,7 @@ public class UIMovementVR : MonoBehaviour
 		// If the UI should rotate with the camera...
 		if (m_RotateWithCamera) {
 			// Find the direction the camera is looking but on a flat plane.
-			Vector3 targetDirection = Vector3.ProjectOnPlane (m_Camera.forward, Vector3.up).normalized;
+			Vector3 targetDirection = m_Camera.forward.normalized; //Vector3.ProjectOnPlane (m_Camera.forward, Vector3.up).normalized;
 
 			// Calculate a target position from the camera in the direction at the same distance from the camera as it was at Start.
 			Vector3 targetPosition = m_Camera.position + targetDirection * m_DistanceFromCamera;
@@ -47,8 +47,9 @@ public class UIMovementVR : MonoBehaviour
 			targetPosition = Vector3.Lerp (m_UIElement.position, targetPosition, m_FollowSpeed * Time.deltaTime);
 
 			// Since the UI is only following on the XZ plane, negate any y movement.
-			if (!followY)
+			if (!followY) {
 				targetPosition.y = m_UIElement.position.y;
+			}
 
 			// Set the UI's position to the calculated target position.
 			m_UIElement.position = targetPosition;

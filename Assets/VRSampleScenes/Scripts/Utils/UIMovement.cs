@@ -44,7 +44,7 @@ namespace VRStandardAssets.Utils
                 targetPosition = Vector3.Lerp(m_UIElement.position, targetPosition, m_FollowSpeed * Time.deltaTime);
 
                 // Since the UI is only following on the XZ plane, negate any y movement.
-                //targetPosition.y = m_UIElement.position.y;
+                targetPosition.y = m_UIElement.position.y;
 
                 // Set the UI's position to the calculated target position.
                 m_UIElement.position = targetPosition;

@@ -7,10 +7,15 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	private Vector3 oldPos;
 	private Vector3 newPos; 
 
-	private float rotationScale = 100.0f;
+	public float rotationScale = 100.0f;
 
-	private float minX = 0.01f;
-	private float minZ = 0.01f;
+	public float minXMovement = 0.01f;
+	public float minZMovement = 0.01f;
+
+	public bool onPlanet = true;
+	private Vector3 planetCenter = Vector3.zero;
+	public Transform planet; 
+
 
 	// Use this for initialization
 	void Start () {
@@ -47,29 +52,26 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 		float xDiff = newPos.x - oldPos.x;
 
 		float zDiff = newPos.z - oldPos.z;
-
-
-		Vector3 temp = new Vector3 (-zDiff, 0f , xDiff);
-		temp *= rotationScale;
 	
+		if (Mathf.Abs (xDiff) < minXMovement) {
+			xDiff = 0f;
+		} 
+
+		if (Mathf.Abs (zDiff) < minZMovement) {
+			zDiff = 0f;
+		}
+
+
+		Vector3 temp = new Vector3 (zDiff, 0f , -xDiff);
+		temp *= rotationScale;
+
 		planet.Rotate (temp,Space.World);
 		oldPos = newPos;
+	
 
 	
 	}
-
-
-	// always move the the trackingSpace downwards
-	// always keep the rotation perpendicular to planet
-	private bool onPlanet = false;
-	private Vector3 planetCenter = Vector3.zero;
-	public Transform planet; 
-
-	void AssertGravity() {
-		if (onPlanet) {
-			
-		}
-	}
+		
 
 
 	void OnTriggerEnter(Collider other) {
