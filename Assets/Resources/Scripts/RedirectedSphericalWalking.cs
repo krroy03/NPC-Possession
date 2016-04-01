@@ -7,6 +7,8 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	private Vector3 oldPos;
 	private Vector3 newPos; 
 
+	private float rotationScale = 200.0f;
+
 	// Use this for initialization
 	void Start () {
 		oldPos = player.transform.localPosition;
@@ -15,8 +17,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (onPlanet) {
-			TrackingSpaceGain ();
-			// TrackingSpaceRotation();
+			PlanetRotation ();
 		}
 	}
 
@@ -28,8 +29,6 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 
 		// add that difference to trackingspace position
 		this.transform.position += temp;
-		planet.Rotate (temp * 100f);
-		Debug.Log (planet.rotation);
 		oldPos = newPos;
 	}
 
@@ -37,13 +36,20 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	// always keep trackingSpace at an angle such that it is perpendicular to direction vector between
 	// tracking space and current planet center 
 
-	void TrackingSpaceRotation() {
+	void PlanetRotation() {
+
+		newPos = player.transform.localPosition;
 
 		// get difference in local position to find out if player moved
-		Vector3 temp = new Vector3 (newPos.x - oldPos.x, newPos.y - oldPos.y, newPos.z - oldPos.z);
+		float xDiff = newPos.x - oldPos.x;
+		float yDiff = newPos.y - oldPos.y;
+		float zDiff = newPos.z - oldPos.z;
+		Vector3 temp = new Vector3 (-zDiff, yDiff , xDiff);
 
-		// add that difference to trackingspace position
-		this.transform.Rotate(temp);
+		planet.Rotate (temp * rotationScale);
+		oldPos = newPos;
+
+
 	
 	}
 
