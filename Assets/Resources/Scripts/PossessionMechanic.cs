@@ -146,7 +146,7 @@ public class PossessionMechanic : MonoBehaviour {
 	 * Then, move the tracking space such that the player is still in the same position relative to tracking space. 
 	 * */
 
-	private void ShiftTeleportToNewPos(Vector3 pos) {
+	public void ShiftTeleportToNewPos(Vector3 pos) {
 		Vector3 dir = newCenter - this.transform.position;
 		dir.y = 0f;
 

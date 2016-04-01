@@ -111,7 +111,7 @@ public class NPC : MonoBehaviour {
 	//when throw object to attract NPC's attention
 	private void OnTriggerEnter (Collider col)
 	{	
-	    Debug.Log("collider name");
+
 		if (col.gameObject.layer == 8) {
 			//wait for a while
 			Wait ();
@@ -120,10 +120,11 @@ public class NPC : MonoBehaviour {
 				LookAtPlayer (obj.npc);
 			}
 		}
+
 			//lookingAt.GetComponent<NPC> ().LookAtPlayer (currentNPC);
 					
 	}
 
-	//when objects hit an NPC, you teleport to him
+
 
 }
