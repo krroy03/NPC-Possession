@@ -2,37 +2,78 @@
 using System.Collections;
 
 public class RedirectedSphericalWalking : MonoBehaviour {
-	public Transform trackingSpace; 
+	public Transform player;
 
 	private Vector3 oldPos;
 	private Vector3 newPos; 
 
 	// Use this for initialization
 	void Start () {
-		oldPos = this.transform.localPosition;
+		oldPos = player.transform.localPosition;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//TrackingSpaceGain ();
+		if (onPlanet) {
+			TrackingSpaceGain ();
+			// TrackingSpaceRotation();
+		}
 	}
 
 	void TrackingSpaceGain() {
-		newPos = this.transform.localPosition;
+		newPos = player.transform.localPosition;
 
 		// get difference in local position to find out if player moved
-		Vector3 temp = GetSpherePosFromPlanePos(newPos.x, newPos.z);
+		Vector3 temp = new Vector3 (newPos.x - oldPos.x, newPos.y - oldPos.y, newPos.z - oldPos.z);
 
 		// add that difference to trackingspace position
-		trackingSpace.position = temp;
+		this.transform.position += temp;
+		planet.Rotate (temp * 100f);
+		Debug.Log (planet.rotation);
 		oldPos = newPos;
 	}
 
-	private Vector3 GetSpherePosFromPlanePos(float xPos,float yPos) {
-		float x = (2f * xPos) / (1f + Mathf.Pow (xPos, 2) + Mathf.Pow (yPos, 2));
-		float y = (2f * yPos) / (1f + Mathf.Pow (xPos, 2) + Mathf.Pow (yPos, 2));
-		float z = (-1 + Mathf.Pow (xPos, 2) + Mathf.Pow (yPos, 2)) / (1f + Mathf.Pow (xPos, 2) + Mathf.Pow (yPos, 2));
 
-		return new Vector3 (x,y,z);
+	// always keep trackingSpace at an angle such that it is perpendicular to direction vector between
+	// tracking space and current planet center 
+
+	void TrackingSpaceRotation() {
+
+		// get difference in local position to find out if player moved
+		Vector3 temp = new Vector3 (newPos.x - oldPos.x, newPos.y - oldPos.y, newPos.z - oldPos.z);
+
+		// add that difference to trackingspace position
+		this.transform.Rotate(temp);
+	
+	}
+
+
+	// always move the the trackingSpace downwards
+	// always keep the rotation perpendicular to planet
+	private bool onPlanet = false;
+	private Vector3 planetCenter = Vector3.zero;
+	private Transform planet; 
+
+	void AssertGravity() {
+		if (onPlanet) {
+			
+		}
+	}
+
+
+	void OnTriggerEnter(Collider other) {
+		if (other.tag == "Planet") {
+			onPlanet = true;
+			planetCenter = other.transform.position;
+			planet = other.gameObject.transform;
+		}
+	}
+
+	void OnTriggerExit(Collider other) {
+		if (other.tag == "Planet") {
+			onPlanet = false;
+			planetCenter = Vector3.zero;
+			planet = null;
+		}
 	}
 }
