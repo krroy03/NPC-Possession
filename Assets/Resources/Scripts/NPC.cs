@@ -48,7 +48,7 @@ public class NPC : MonoBehaviour {
 		lookingAtPlayer = true;
 		player = playerNew.transform;
 		headlook.target = player.position;
-		headlook.target.y = 50;
+		//headlook.target.y = 50;
 		//RotateNPC (player.position - this.transform.position);
 	
 	}

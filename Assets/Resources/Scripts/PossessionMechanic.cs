@@ -162,7 +162,7 @@ public class PossessionMechanic : MonoBehaviour {
 			// Either turn cam to face old npc 
 			// OR turn cam to face current NPC pov
 
-			//TurnCamToFaceDir (oldCenter - pos);
+			TurnCamToFaceDir (oldCenter - pos);
 			//TurnCamToFaceDir (currentNPC.transform.forward);
 			parentNPCToCam (currentNPC);
 		}
