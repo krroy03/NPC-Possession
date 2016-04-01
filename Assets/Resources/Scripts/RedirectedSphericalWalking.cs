@@ -7,7 +7,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	private Vector3 oldPos;
 	private Vector3 newPos; 
 
-	private float rotationScale = 200.0f;
+	private float rotationScale = 100.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -44,7 +44,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 		float xDiff = newPos.x - oldPos.x;
 		float yDiff = newPos.y - oldPos.y;
 		float zDiff = newPos.z - oldPos.z;
-		Vector3 temp = new Vector3 (-zDiff, yDiff , xDiff);
+		Vector3 temp = new Vector3 (-zDiff, 0f , xDiff);
 
 		planet.Rotate (temp * rotationScale);
 		oldPos = newPos;
@@ -58,7 +58,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	// always keep the rotation perpendicular to planet
 	private bool onPlanet = false;
 	private Vector3 planetCenter = Vector3.zero;
-	private Transform planet; 
+	public Transform planet; 
 
 	void AssertGravity() {
 		if (onPlanet) {
