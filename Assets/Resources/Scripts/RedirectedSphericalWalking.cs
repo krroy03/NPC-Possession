@@ -20,6 +20,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		oldPos = player.transform.localPosition;
+		planetCenter = planet.position;
 	}
 	
 	// Update is called once per frame
@@ -71,7 +72,6 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 
 	
 	}
-		
 
 
 	void OnTriggerEnter(Collider other) {
