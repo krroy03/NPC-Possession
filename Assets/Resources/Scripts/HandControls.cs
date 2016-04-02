@@ -57,7 +57,7 @@ public class HandControls : MonoBehaviour {
 					Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 					if (rg != null) {
 						currentObj.GetComponent<Rigidbody>().isKinematic = true;
-                    	currentObj.GetComponent<Rigidbody>().useGravity = false;
+                    	//currentObj.GetComponent<Rigidbody>().useGravity = false;
 					}
                     
 				}
@@ -77,8 +77,9 @@ public class HandControls : MonoBehaviour {
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-					currentObj.GetComponent<Rigidbody> ().useGravity = true;
+					//currentObj.GetComponent<Rigidbody> ().useGravity = true;
 					rg.AddForce(speed);
+
 					//Debug.Log("speed:"+speed);
 				}
 				movingObj = false;
