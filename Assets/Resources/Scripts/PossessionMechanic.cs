@@ -148,7 +148,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 	public void ShiftTeleportToNewPos(Vector3 pos) {
 		Vector3 dir = newCenter - this.transform.position;
-		dir.y = 0f;
+		//dir.y = 0f;
 
 		if (dir.magnitude > shiftStopDist) {
 			// still moving to our destination
