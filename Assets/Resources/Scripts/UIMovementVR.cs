@@ -19,6 +19,9 @@ public class UIMovementVR : MonoBehaviour
 	public bool followY = false;
 
 	public float m_DistanceFromCamera;
+
+	public float camYOffset = 0.2f;
+
 	// The distance the UI should stay from the camera when rotating with it.
 
 
@@ -49,6 +52,8 @@ public class UIMovementVR : MonoBehaviour
 			// Since the UI is only following on the XZ plane, negate any y movement.
 			if (!followY) {
 				targetPosition.y = m_UIElement.position.y;
+			} else {
+				targetPosition.y -= camYOffset;
 			}
 
 			// Set the UI's position to the calculated target position.
