@@ -23,7 +23,7 @@ public class NPCCollision : MonoBehaviour {
 			//teleport to the NPC get hit if NPC I want to transfer is not myself
 			if (obj.npc && (obj.npc != currentNPC)) {
 				
-				pm.PossessNewNPC ( currentNPC);
+				pm.PossessNewNPC (currentNPC);
 				currentNPC =  this.transform.parent.gameObject;
 			}
 		}
