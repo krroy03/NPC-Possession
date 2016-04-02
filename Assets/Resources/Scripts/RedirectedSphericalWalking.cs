@@ -63,7 +63,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 		}
 
 
-		Vector3 temp = new Vector3 (-zDiff, 0f , xDiff);
+		Vector3 temp = new Vector3 (zDiff, 0f , -xDiff);
 		temp *= rotationScale;
 
 		planet.Rotate (temp,Space.World);
