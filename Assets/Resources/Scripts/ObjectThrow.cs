@@ -7,6 +7,7 @@ public class ObjectThrow : MonoBehaviour {
 	private Transform npcTransform = null;
 	public GameObject npc = null;
 
+
 	void FixedUpdate ()
 	{
 		if (GetComponent<Rigidbody> ().isKinematic == true) {
