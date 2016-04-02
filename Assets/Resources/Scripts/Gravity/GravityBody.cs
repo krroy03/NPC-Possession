@@ -6,7 +6,9 @@ public class GravityBody : MonoBehaviour {
 	
 	public GravityAttractor planet;
 	Rigidbody rigidbody;
-	
+
+	// when enters another planet radius, gets attracted to that planet 
+
 	void Awake () {
 		rigidbody = GetComponent<Rigidbody> ();
 
@@ -14,10 +16,11 @@ public class GravityBody : MonoBehaviour {
 		rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 		planet = GetComponentInParent<GravityAttractor> ();
 	}
-	
-	void FixedUpdate () {
 
-		planet.Attract(rigidbody);
+
+	void FixedUpdate () {
+		if (planet)
+			planet.Attract(rigidbody);
 	}
 
 

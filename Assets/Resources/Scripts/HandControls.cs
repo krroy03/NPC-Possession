@@ -77,6 +77,7 @@ public class HandControls : MonoBehaviour {
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
+					currentObj.GetComponent<GravityBody> ().planet = null;
 					//currentObj.GetComponent<Rigidbody> ().useGravity = true;
 					rg.AddForce(speed);
 

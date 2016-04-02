@@ -8,7 +8,7 @@ public class NPCCollision : MonoBehaviour {
 	void Start ()
 	{
 		//get myself first
-		currentNPC = this.gameObject;
+		currentNPC = this.transform.parent.gameObject;
 	}
 
 	// When NPC collides with a cube
@@ -19,12 +19,12 @@ public class NPCCollision : MonoBehaviour {
 			
 			ObjectThrow obj = col.gameObject.GetComponent<ObjectThrow> ();
 			PossessionMechanic pm = GameObject.Find ("CamContainer").GetComponent<PossessionMechanic> ();
-			Debug.Log ("enter" + obj.npc);
+
 			//teleport to the NPC get hit if NPC I want to transfer is not myself
 			if (obj.npc && (obj.npc != currentNPC)) {
-				Debug.Log("xixixixixi");
-				pm.PossessNewNPC (this.gameObject);
-				currentNPC = this.gameObject;
+				
+				pm.PossessNewNPC ( currentNPC);
+				currentNPC =  this.transform.parent.gameObject;
 			}
 		}
 	}
