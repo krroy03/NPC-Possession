@@ -18,7 +18,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 	// variables for looking at an NPC
 	public float timeNeeded;
-	private float fillAmount = 0.02f;
+	private float fillAmount = 0.05f;
 	private float lookTime = 0f;
 
 	private TransitionEffect transition;
