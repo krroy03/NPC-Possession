@@ -18,7 +18,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 	// variables for looking at an NPC
 	public float timeNeeded;
-	private float fillAmount = 0.02f;
+	private float fillAmount = 0.05f;
 	private float lookTime = 0f;
 
 	private TransitionEffect transition;
@@ -148,7 +148,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 	public void ShiftTeleportToNewPos(Vector3 pos) {
 		Vector3 dir = newCenter - this.transform.position;
-		dir.y = 0f;
+		//dir.y = 0f;
 
 		if (dir.magnitude > shiftStopDist) {
 			// still moving to our destination

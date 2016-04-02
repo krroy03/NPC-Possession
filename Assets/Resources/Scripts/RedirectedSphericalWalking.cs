@@ -19,7 +19,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		oldPos = player.transform.localPosition;
+		oldPos = player.transform.position;
 		planetCenter = planet.position;
 	}
 	
@@ -31,7 +31,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	}
 
 	void TrackingSpaceGain() {
-		newPos = player.transform.localPosition;
+		newPos = player.transform.position;
 
 		// get difference in local position to find out if player moved
 		Vector3 temp = new Vector3 (newPos.x - oldPos.x, newPos.y - oldPos.y, newPos.z - oldPos.z);
@@ -47,7 +47,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 
 	void PlanetRotation() {
 
-		newPos = player.transform.localPosition;
+		newPos = player.transform.position;
 
 		// get difference in local position to find out if player moved
 		float xDiff = newPos.x - oldPos.x;
@@ -63,7 +63,7 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 		}
 
 
-		Vector3 temp = new Vector3 (zDiff, 0f , -xDiff);
+		Vector3 temp = new Vector3 (-zDiff, 0f , xDiff);
 		temp *= rotationScale;
 
 		planet.Rotate (temp,Space.World);
