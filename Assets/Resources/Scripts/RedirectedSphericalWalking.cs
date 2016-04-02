@@ -16,18 +16,22 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	private Vector3 planetCenter = Vector3.zero;
 	public Transform planet; 
 
-
+	private PossessionMechanic pm;
 	// Use this for initialization
 	void Start () {
 		oldPos = player.transform.position;
 		planetCenter = planet.position;
+		pm = this.gameObject.GetComponent<PossessionMechanic> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (onPlanet) {
+		if (onPlanet && pm.finishedShifting) {
+			
 			PlanetRotation ();
 		}
+
+
 	}
 
 	void TrackingSpaceGain() {
@@ -48,7 +52,10 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	void PlanetRotation() {
 
 		newPos = player.transform.position;
-
+		if (pm.reachedPlanet) {
+			oldPos = newPos;
+			pm.reachedPlanet = false;
+		}
 		// get difference in local position to find out if player moved
 		float xDiff = newPos.x - oldPos.x;
 
@@ -62,7 +69,9 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 			zDiff = 0f;
 		}
 
-
+		if (zDiff > 0.001 || xDiff > 0.001f) {
+			Debug.Log ("gets here");
+		}
 		Vector3 temp = new Vector3 (-zDiff, 0f , xDiff);
 		temp *= rotationScale;
 

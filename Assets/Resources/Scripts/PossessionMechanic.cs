@@ -13,6 +13,9 @@ public class PossessionMechanic : MonoBehaviour {
 	public AudioSource moveSound;
 	public float shiftSpeed = 1f; 
 	private bool shifting = false; 
+	public bool finishedShifting = false; 
+	public bool reachedPlanet = false; 
+
 	private float shiftStopDist = 0.01f;
 
 
@@ -30,6 +33,7 @@ public class PossessionMechanic : MonoBehaviour {
 		transition = this.gameObject.GetComponent<TransitionEffect> ();
 		parentNPCToCam (currentNPC);
 		npcList = GameObject.Find ("NPCs").transform;
+		finishedShifting = true;
 	}
 	
 	// Update is called once per frame
@@ -116,7 +120,7 @@ public class PossessionMechanic : MonoBehaviour {
 			// reset old npc position
 			currentNPC.transform.position = oldCenter;
 		}
-			
+		finishedShifting = false;
 		shifting = true;
 		currentNPC = npc;
 		newCenter = GetNewCenterOfTrackingSpace (currentNPC.transform.position);
@@ -165,6 +169,8 @@ public class PossessionMechanic : MonoBehaviour {
 			TurnCamToFaceDir (oldCenter - pos);
 			//TurnCamToFaceDir (currentNPC.transform.forward);
 			parentNPCToCam (currentNPC);
+			finishedShifting = true;
+			reachedPlanet = true;
 		}
 	}
 
