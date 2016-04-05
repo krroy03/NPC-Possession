@@ -29,6 +29,8 @@ public class NPCCollision : MonoBehaviour {
 				obj.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 				pm.PossessNewNPC (currentNPC);
 				currentNPC =  this.transform.parent.gameObject;
+				col.gameObject.GetComponent<SoulMovement> ().followHead = true;
+				col.gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			}
 		}
 	}

@@ -1,21 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HandControls : MonoBehaviour
-{
+public class SoulControls : MonoBehaviour {
+
 	int deviceIndex;
 	bool movingObj = false;
 	GameObject currentObj;
 	Animator handAnimator;
-	Vector3 speed;
+	Vector3 velocity;
 	Vector3 prePos;
 	Vector3 curPos;
 
 	public bool left;
-
 	// Use this for initialization
-	void Start ()
-	{
+	void Start () {
 		if (left)
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Leftmost);
 		else
@@ -24,25 +22,19 @@ public class HandControls : MonoBehaviour
 		handAnimator = gameObject.GetComponentInChildren<Animator> ();
 
 		prePos = this.transform.position;
-		speed = Vector3.zero;
+		velocity = Vector3.zero;
 	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
-
+	void Update () {
 		curPos = this.transform.position;
-		speed = 100f * (curPos - prePos) * (1 / Time.deltaTime);
+		velocity = 100f * (curPos - prePos) * (1 / Time.deltaTime);
 		prePos = curPos;
 
 		MoveObject ();
 		ReleaseObject ();
 	}
 
-	void FixedUpdate ()
-	{
-
-	}
 
 	void MoveObject ()
 	{
@@ -51,20 +43,23 @@ public class HandControls : MonoBehaviour
 		else
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
 		//Debug.Log("deviceIndex = " + deviceIndex);
+
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
 			handAnimator.SetBool ("Fist", true);
 			handAnimator.SetBool ("Idle", false);
 			if (!movingObj) {
 				if (currentObj != null) {
 					currentObj.transform.parent = this.transform;
+					currentObj.GetComponent<SoulMovement> ().followHead = false;
+					currentObj.GetComponent<MeshRenderer> ().enabled = true;
 					movingObj = true;
 					Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 					if (rg != null) {
 						currentObj.GetComponent<Rigidbody> ().isKinematic = true;
 					}
-                    
+
 				}
-					
+
 			}
 
 		}
@@ -80,10 +75,9 @@ public class HandControls : MonoBehaviour
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-					currentObj.GetComponent<GravityBody> ().planet = null;
-					rg.AddForce (speed);
-
-					//Debug.Log("speed:"+speed);
+					rg.AddForce (velocity);
+					// if soul doesn't hit npc, return it to player after 5 seconds
+					StartCoroutine (currentObj.GetComponent<SoulMovement> ().ResetSoulPositionIfMiss (5f));
 				}
 				movingObj = false;
 				currentObj = null;
@@ -91,21 +85,19 @@ public class HandControls : MonoBehaviour
 		}
 	}
 
+
 	void OnTriggerEnter (Collider col)
 	{
-		if (!movingObj) {
-			if (col.gameObject.layer == 8) {
-				currentObj = col.gameObject;
-				MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
-				currentObjMeshRenderer.material.color = Color.blue;
-			}
+		
+		if (col.gameObject.tag == "Soul") {
+			currentObj = col.gameObject;
 		}
+
 	}
 
 	void OnTriggerExit (Collider col)
 	{
-		if (col.gameObject.layer == 8) {
-			col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+		if (col.gameObject.tag == "Soul") {
 		}
 	}
 }
