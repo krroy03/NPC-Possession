@@ -35,6 +35,7 @@ public class SoulMovement : MonoBehaviour {
 		if (!followHead) {
 			returnToPlayer = true;
 			this.GetComponent<SphereCollider> ().enabled = false;
+			this.GetComponent<Rigidbody> ().isKinematic = true;
 		}
 	}
 
@@ -46,6 +47,7 @@ public class SoulMovement : MonoBehaviour {
 			returnToPlayer = false;
 			followHead = true;
 			this.GetComponent<SphereCollider> ().enabled = true;
+			this.GetComponent<Rigidbody> ().isKinematic = false;
 		}
 	}
 }
