@@ -1,11 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RedirectedSphericalWalking : MonoBehaviour {
+public class RedirectedSphericalWalking : MonoBehaviour
+{
+
+	public enum WalkingMethod
+	{
+		RotatePlanet,
+		RotatePlayer
+	};
+
+
 	public Transform player;
 
 	private Vector3 oldPos;
-	private Vector3 newPos; 
+	private Vector3 newPos;
 
 	public float rotationScale = 100.0f;
 
@@ -14,42 +23,102 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 
 	public bool onPlanet = true;
 	private Vector3 planetCenter = Vector3.zero;
-	public Transform planet; 
+	public Transform planet;
 
 	private PossessionMechanic pm;
+
+	// movement variables
+	public WalkingMethod walkingType;
+	public float walkSpeed = 6;
+	Vector3 moveAmount;
+	Vector3 smoothMoveVelocity;
+	Rigidbody rigidbody;
+
 	// Use this for initialization
-	void Start () {
-		oldPos = player.transform.position;
+	void Start ()
+	{
+		if (walkingType == WalkingMethod.RotatePlanet) {
+			oldPos = player.transform.position;
+		} else if (walkingType == WalkingMethod.RotatePlayer) {
+			oldPos = player.transform.localPosition;
+		}
+
 		planetCenter = planet.position;
 		pm = this.gameObject.GetComponent<PossessionMechanic> ();
+		rigidbody = this.GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		if (onPlanet && pm.finishedShifting) {
-			
-			PlanetRotation ();
+			if (walkingType == WalkingMethod.RotatePlanet) {
+				PlanetRotation ();
+			} else if (walkingType == WalkingMethod.RotatePlayer) {
+				TrackingSpaceMovement ();
+			}
 		}
+
 
 
 	}
 
-	void TrackingSpaceGain() {
-		newPos = player.transform.position;
+	void FixedUpdate ()
+	{
+		if (walkingType == WalkingMethod.RotatePlayer) {
+			// Apply movement to rigidbody
+			Vector3 localMove = transform.TransformDirection (moveAmount) * Time.fixedDeltaTime;
+			rigidbody.MovePosition (rigidbody.position + localMove);
+		}
+	}
+
+
+	void TrackingSpaceMovement ()
+	{
+
+		newPos = player.transform.localPosition;
+		if (pm.reachedPlanet) {
+			oldPos = newPos;
+			pm.reachedPlanet = false;
+		}
+		// get difference in local position to find out if player moved
+		float xDiff = newPos.x - oldPos.x;
+
+		float zDiff = newPos.z - oldPos.z;
+
+		if (Mathf.Abs (xDiff) < minXMovement * 2f) {
+			xDiff = 0f;
+		} 
+		if (Mathf.Abs (zDiff) < minZMovement * 2f) {
+			zDiff = 0f;
+		}
 
 		// get difference in local position to find out if player moved
-		Vector3 temp = new Vector3 (newPos.x - oldPos.x, newPos.y - oldPos.y, newPos.z - oldPos.z);
+		Vector3 temp = new Vector3 (xDiff, 0f, zDiff);
+
+
+		// Calculate movement:
+		float inputX = Input.GetAxisRaw ("Horizontal");
+		float inputY = Input.GetAxisRaw ("Vertical");
+
+		//Vector3 moveDir = new Vector3 (inputX, 0, inputY).normalized;
+		Vector3 moveDir = temp.normalized;
+		Vector3 targetMoveAmount = moveDir * walkSpeed;
+		moveAmount = Vector3.SmoothDamp (moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
+
 
 		// add that difference to trackingspace position
-		this.transform.position += temp;
+		//this.transform.position += temp;
 		oldPos = newPos;
 	}
 
 
-	// always keep trackingSpace at an angle such that it is perpendicular to direction vector between
-	// tracking space and current planet center 
 
-	void PlanetRotation() {
+	// always keep trackingSpace at an angle such that it is perpendicular to direction vector between
+	// tracking space and current planet center
+
+	void PlanetRotation ()
+	{
 
 		newPos = player.transform.position;
 		if (pm.reachedPlanet) {
@@ -69,13 +138,10 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 			zDiff = 0f;
 		}
 
-		if (zDiff > 0.001 || xDiff > 0.001f) {
-			Debug.Log ("gets here");
-		}
-		Vector3 temp = new Vector3 (-zDiff, 0f , xDiff);
+		Vector3 temp = new Vector3 (-zDiff, 0f, xDiff);
 		temp *= rotationScale;
 
-		planet.Rotate (temp,Space.World);
+		planet.Rotate (temp, Space.World);
 		oldPos = newPos;
 	
 
@@ -83,7 +149,9 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 	}
 
 
-	void OnTriggerEnter(Collider other) {
+
+	void OnTriggerEnter (Collider other)
+	{
 		if (other.tag == "Planet") {
 			onPlanet = true;
 			planetCenter = other.transform.position;
@@ -91,7 +159,8 @@ public class RedirectedSphericalWalking : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerExit(Collider other) {
+	void OnTriggerExit (Collider other)
+	{
 		if (other.tag == "Planet") {
 			onPlanet = false;
 			planetCenter = Vector3.zero;

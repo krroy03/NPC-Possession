@@ -16,7 +16,7 @@ public class NPCCollision : MonoBehaviour {
 	// When NPC collides with a cube
 	void OnTriggerEnter (Collider col)
 	{
-		if (col.gameObject.layer == 8) {
+		if (col.gameObject.tag == "Soul") {
 
 			ObjectThrow obj = col.gameObject.GetComponent<ObjectThrow> ();
 
