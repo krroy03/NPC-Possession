@@ -7,6 +7,7 @@ public class GravityBody : MonoBehaviour {
 	public GravityAttractor planet;
 	Rigidbody rigidbody;
 
+	public float gravityMultiplier = 1f;
 	// when enters another planet radius, gets attracted to that planet 
 
 	void Awake () {
@@ -20,7 +21,7 @@ public class GravityBody : MonoBehaviour {
 
 	void FixedUpdate () {
 		if (planet)
-			planet.Attract(rigidbody);
+			planet.Attract(rigidbody, gravityMultiplier);
 	}
 
 
