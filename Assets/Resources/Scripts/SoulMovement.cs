@@ -40,7 +40,7 @@ public class SoulMovement : MonoBehaviour {
 
 	private void ReturnTo(Vector3 pos) {
 		Vector3 moveDir = pos - this.transform.position;
-		this.transform.Translate (moveDir * Time.deltaTime * returnSpeed);
+		this.transform.Translate (moveDir * Time.deltaTime * returnSpeed, Space.World);
 
 		if (Vector3.Distance (this.transform.position, pos) <= 0.001f) {
 			returnToPlayer = false;
