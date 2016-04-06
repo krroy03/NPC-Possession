@@ -97,6 +97,8 @@ public class HandControls : MonoBehaviour
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
 			handAnimator.SetBool ("Idle", true);
 			handAnimator.SetBool ("Fist", false);
+
+			Debug.Log ("return soul2");
 			if (!currentObj && !movingObj) {
 				Debug.Log ("return soul");
 				soul.ReturnSoul ();
