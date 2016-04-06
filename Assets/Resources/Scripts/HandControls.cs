@@ -91,7 +91,7 @@ public class HandControls : MonoBehaviour
 		}
 	}
 
-	// presss touchpad to return soul
+	// presss touchpad to return
 	void ReturnSoul() {
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Touchpad))) {
 			handAnimator.SetBool ("Idle", true);

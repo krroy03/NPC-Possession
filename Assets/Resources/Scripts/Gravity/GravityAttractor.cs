@@ -20,6 +20,16 @@ public class GravityAttractor : MonoBehaviour {
 		GravityBody obj = col.gameObject.GetComponent<GravityBody> ();
 		if (obj) {
 			obj.planet = this;
+			col.gameObject.transform.SetParent(this.transform);
+		}
+	}
+
+	void OnTriggerExit(Collider col) {
+		if (col.gameObject.layer == 8) {
+			// gravitational objects
+			// then parent to planet 
+			col.gameObject.transform.SetParent(null);
+
 		}
 	}
 
@@ -27,7 +37,7 @@ public class GravityAttractor : MonoBehaviour {
 		if (col.gameObject.layer == 8) {
 			// gravitational objects
 			// then parent to planet 
-			col.gameObject.transform.SetParent(this.transform);
+			//col.gameObject.transform.SetParent(this.transform);
 
 		}
 	}
