@@ -33,7 +33,7 @@ public class GravityBody : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col) {
 		if (col.gameObject.tag == "Planet") {
-			planet = col.gameObject;
+			planet = col.gameObject.GetComponent<GravityAttractor>();
 			this.transform.SetParent (col.transform);
 		}
 	}
