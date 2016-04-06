@@ -53,11 +53,16 @@ public class PossessionMechanic : MonoBehaviour {
 		
 		if (!shifting) {
 			// only cast ray when not shifting 
-			RaycastHit hit;
+			RaycastHit[] hits;
 			Debug.DrawRay (head.transform.position, head.transform.forward, Color.green);
-			if (Physics.Raycast (head.transform.position, head.transform.forward, out hit, 100f)) {
-				if (hit.collider.tag == "NPC") {
-					lookingAt = hit.collider.gameObject;
+			hits = Physics.RaycastAll (head.transform.position, head.transform.forward, 100f);
+			bool hitNPC = false; 
+			for (int i = 0; i < hits.Length; i++) {
+				if (hits [i].collider.tag == "NPC") {
+					// we hit an NPC
+					hitNPC = true;
+
+					lookingAt = hits[i].collider.gameObject;
 					lookTime += fillAmount;
 					UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 
@@ -68,26 +73,20 @@ public class PossessionMechanic : MonoBehaviour {
 						UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 
 						// we can possess npc
-						PossessNewNPC (hit.collider.gameObject);
+						PossessNewNPC (hits[i].collider.gameObject);
 					}
 
 					if (lookTime >= timeNeeded / 3.0f) {
 						// we got npc attention
 						lookingAt.GetComponent<NPC> ().LookAtPlayer (currentNPC);
 					}
-				} else {
-					// if we hit another collider, reset too
-					lookTime = 0f;
+					// after we find npc, don't need to traverse rest of loop
+					break;
+				} 
+			}
 
-					UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
-					if (lookingAt) {
-						lookingAt.GetComponent<NPC> ().LookAwayFromPlayer ();
-						lookingAt = null;
-					}
-				}
-			} else {
-				// if we look away from trigger, then reset time 
-
+			// reset UI recticle
+			if (!hitNPC || hits.Length == 0) {
 				lookTime = 0f;
 				UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 				if (lookingAt) {

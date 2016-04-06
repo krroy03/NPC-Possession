@@ -7,11 +7,9 @@ public class ObjectThrow : MonoBehaviour {
 	private Transform npcTransform = null;
 	public GameObject npc = null;
 
-	private GravityBody gBody; 
 
 
 	void Start() {
-		gBody = this.gameObject.GetComponent<GravityBody> ();
 
 		cam = GameObject.Find("CamContainer");
 	}

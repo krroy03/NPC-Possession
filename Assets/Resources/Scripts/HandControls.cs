@@ -4,8 +4,8 @@ using System.Collections;
 public class HandControls : MonoBehaviour
 {
 	int deviceIndex;
-	bool movingObj = false;
-	GameObject currentObj;
+	public bool movingObj = false;
+	public GameObject currentObj;
 	Animator handAnimator;
 	Vector3 speed;
 	Vector3 prePos;

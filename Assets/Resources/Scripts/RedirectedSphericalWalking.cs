@@ -7,8 +7,9 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	public enum WalkingMethod
 	{
 		RotatePlanet,
-		RotatePlayer
-	};
+		RotatePlayer}
+
+	;
 
 
 	public Transform player;
@@ -22,7 +23,6 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	public float minZMovement = 0.01f;
 
 	public bool onPlanet = true;
-	private Vector3 planetCenter = Vector3.zero;
 	public Transform planet;
 
 	private PossessionMechanic pm;
@@ -32,7 +32,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	public float walkSpeed = 6;
 	Vector3 moveAmount;
 	Vector3 smoothMoveVelocity;
-	Rigidbody rigidbody;
+	Rigidbody thisRigidBody;
 
 	// Use this for initialization
 	void Start ()
@@ -43,9 +43,8 @@ public class RedirectedSphericalWalking : MonoBehaviour
 			oldPos = player.transform.localPosition;
 		}
 
-		planetCenter = planet.position;
 		pm = this.gameObject.GetComponent<PossessionMechanic> ();
-		rigidbody = this.GetComponent<Rigidbody> ();
+		thisRigidBody = this.GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -58,9 +57,6 @@ public class RedirectedSphericalWalking : MonoBehaviour
 				TrackingSpaceMovement ();
 			}
 		}
-
-
-
 	}
 
 	void FixedUpdate ()
@@ -68,7 +64,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 		if (walkingType == WalkingMethod.RotatePlayer) {
 			// Apply movement to rigidbody
 			Vector3 localMove = transform.TransformDirection (moveAmount) * Time.fixedDeltaTime;
-			rigidbody.MovePosition (rigidbody.position + localMove);
+			thisRigidBody.MovePosition (thisRigidBody.position + localMove);
 		}
 	}
 
@@ -98,10 +94,10 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 
 		// Calculate movement:
-		float inputX = Input.GetAxisRaw ("Horizontal");
-		float inputY = Input.GetAxisRaw ("Vertical");
-
+		//float inputX = Input.GetAxisRaw ("Horizontal");
+		//float inputY = Input.GetAxisRaw ("Vertical");
 		//Vector3 moveDir = new Vector3 (inputX, 0, inputY).normalized;
+
 		Vector3 moveDir = temp.normalized;
 		Vector3 targetMoveAmount = moveDir * walkSpeed;
 		moveAmount = Vector3.SmoothDamp (moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
@@ -143,9 +139,6 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 		planet.Rotate (temp, Space.World);
 		oldPos = newPos;
-	
-
-	
 	}
 
 
@@ -154,7 +147,6 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	{
 		if (other.tag == "Planet") {
 			onPlanet = true;
-			planetCenter = other.transform.position;
 			planet = other.gameObject.transform;
 		}
 	}
@@ -163,7 +155,6 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	{
 		if (other.tag == "Planet") {
 			onPlanet = false;
-			planetCenter = Vector3.zero;
 			planet = null;
 		}
 	}

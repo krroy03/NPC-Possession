@@ -5,7 +5,7 @@ using System.Collections;
 public class GravityBody : MonoBehaviour {
 	
 	public GravityAttractor planet;
-	Rigidbody rigidbody;
+	Rigidbody thisRigidBody;
 
 	public float gravityMultiplier = 1f;
 	// when enters another planet radius, gets attracted to that planet 
@@ -13,17 +13,17 @@ public class GravityBody : MonoBehaviour {
 	public bool beingControlled = false; 
 
 	void Awake () {
-		rigidbody = GetComponent<Rigidbody> ();
+		thisRigidBody = GetComponent<Rigidbody> ();
 
-		rigidbody.useGravity = false;
-		rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+		thisRigidBody.useGravity = false;
+		thisRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
 		planet = GetComponentInParent<GravityAttractor> ();
 	}
 
 
 	void FixedUpdate () {
 		if (planet && !beingControlled)
-			planet.Attract(rigidbody, gravityMultiplier);
+			planet.Attract(thisRigidBody, gravityMultiplier);
 	}
 
 
