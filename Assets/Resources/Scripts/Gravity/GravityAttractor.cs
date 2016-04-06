@@ -16,15 +16,7 @@ public class GravityAttractor : MonoBehaviour {
 	}  
 
 	void OnTriggerEnter(Collider col) {
-		/*
-		 * 
-		 * 
-		 * GravityBody obj = col.gameObject.GetComponent<GravityBody> ();
-		if (obj) {
-			obj.planet = this;
-			col.gameObject.transform.SetParent(this.transform);
-		}
-		 * */
+
 	}
 
 	void OnTriggerExit(Collider col) {
