@@ -29,8 +29,7 @@ public class SoulMovement : MonoBehaviour {
 		this.transform.position = temp;
 	}
 
-	public IEnumerator ResetSoulPositionIfMiss(float waitTime) {
-		yield return new WaitForSeconds (waitTime);
+	public void ReturnSoul() {
 
 		if (!followHead) {
 			returnToPlayer = true;
@@ -43,11 +42,10 @@ public class SoulMovement : MonoBehaviour {
 		Vector3 moveDir = pos - this.transform.position;
 		this.transform.Translate (moveDir * Time.deltaTime * returnSpeed, Space.World);
 
-		if (Vector3.Distance (this.transform.position, pos) <= 0.5f) {
+		if (Vector3.Distance (this.transform.position, pos) <= 0.1f) {
 			returnToPlayer = false;
 			followHead = true;
 			this.GetComponent<SphereCollider> ().enabled = true;
-			this.GetComponent<Rigidbody> ().isKinematic = false;
 			this.GetComponent<MeshRenderer> ().enabled = false;
 		}
 	}

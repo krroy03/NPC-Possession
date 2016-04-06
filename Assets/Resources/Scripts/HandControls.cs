@@ -13,6 +13,8 @@ public class HandControls : MonoBehaviour
 
 	public bool left;
 
+	public SoulMovement soul;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -53,8 +55,7 @@ public class HandControls : MonoBehaviour
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
 			handAnimator.SetBool ("Fist", true);
 			handAnimator.SetBool ("Idle", false);
-			if (!movingObj) {
-				if (currentObj != null) {
+			if (!movingObj && currentObj) {
 					currentObj.transform.parent = this.transform;
 					movingObj = true;
 					Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
@@ -65,7 +66,6 @@ public class HandControls : MonoBehaviour
 							currentObj.GetComponent<MeshRenderer> ().enabled = true;
 						}
 					}
-				}	
 			}
 		}
 	}
@@ -81,15 +81,23 @@ public class HandControls : MonoBehaviour
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					rg.AddForce (speed);
-					if (currentObj.tag == "Soul") {
-						// if soul doesn't hit npc, return it to player after 5 seconds
-						StartCoroutine (currentObj.GetComponent<SoulMovement> ().ResetSoulPositionIfMiss (5f));
-					} else if (currentObj.layer == 8 ) {
+					if (currentObj.layer == 8 ) {
 						currentObj.GetComponent<GravityBody> ().planet = null;
 					}
 				}
 				movingObj = false;
 				currentObj = null;
+			}
+		}
+	}
+
+	// presss touchpad to return soul
+	void ReturnSoul() {
+		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Touchpad))) {
+			handAnimator.SetBool ("Idle", true);
+			handAnimator.SetBool ("Fist", false);
+			if (!currentObj && !movingObj) {
+				soul.ReturnSoul ();
 			}
 		}
 	}
