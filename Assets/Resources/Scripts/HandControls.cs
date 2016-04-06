@@ -32,7 +32,7 @@ public class HandControls : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (left) 
+		if (left)
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Leftmost);
 		else
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
@@ -56,16 +56,18 @@ public class HandControls : MonoBehaviour
 			handAnimator.SetBool ("Fist", true);
 			handAnimator.SetBool ("Idle", false);
 			if (!movingObj && currentObj) {
-					currentObj.transform.parent = this.transform;
-					movingObj = true;
-					Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
-					if (rg != null) {
-						currentObj.GetComponent<Rigidbody> ().isKinematic = true;
-						if (currentObj.tag == "Soul") {
-							currentObj.GetComponent<SoulMovement> ().followHead = false;
-							currentObj.GetComponent<MeshRenderer> ().enabled = true;
-						}
+				currentObj.transform.parent = this.transform;
+				movingObj = true;
+				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
+				if (rg != null) {
+					currentObj.GetComponent<Rigidbody> ().isKinematic = true;
+					if (currentObj.tag == "Soul") {
+						currentObj.GetComponent<SoulMovement> ().followHead = false;
+						currentObj.GetComponent<MeshRenderer> ().enabled = true;
+					} else if (currentObj.layer == 8) {
+						currentObj.GetComponent<GravityBody> ().beingControlled = true;
 					}
+				}
 			}
 		}
 	}
@@ -81,9 +83,10 @@ public class HandControls : MonoBehaviour
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					rg.AddForce (speed);
-					if (currentObj.layer == 8 ) {
-						
-						//currentObj.GetComponent<GravityBody> ().planet = null;
+					if (currentObj.tag == "Soul") {
+
+					} else if (currentObj.layer == 8) {
+						currentObj.GetComponent<GravityBody> ().beingControlled = false;
 					}
 				}
 				movingObj = false;
@@ -93,7 +96,8 @@ public class HandControls : MonoBehaviour
 	}
 
 	// presss touchpad to return
-	void ReturnSoul() {
+	void ReturnSoul ()
+	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
 			handAnimator.SetBool ("Idle", true);
 			handAnimator.SetBool ("Fist", false);
@@ -119,7 +123,7 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
-		if (col.gameObject.layer == 8  || col.gameObject.tag == "Soul") {
+		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 			col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
 		}
 	}

@@ -10,6 +10,8 @@ public class GravityBody : MonoBehaviour {
 	public float gravityMultiplier = 1f;
 	// when enters another planet radius, gets attracted to that planet 
 
+	public bool beingControlled = false; 
+
 	void Awake () {
 		rigidbody = GetComponent<Rigidbody> ();
 
@@ -20,19 +22,19 @@ public class GravityBody : MonoBehaviour {
 
 
 	void FixedUpdate () {
-		if (planet)
+		if (planet && !beingControlled)
 			planet.Attract(rigidbody, gravityMultiplier);
 	}
 
 
 	void OnTriggerExit(Collider col) {
-		if (col.gameObject.tag == "Planet") {
+		if (col.gameObject.tag == "Planet" && !beingControlled) {
 			planet = null;
 		}
 	}
 
 	void OnTriggerEnter(Collider col) {
-		if (col.gameObject.tag == "Planet") {
+		if (col.gameObject.tag == "Planet" && !beingControlled) {
 			planet = col.gameObject.GetComponent<GravityAttractor> ();
 			if (this.gameObject.layer == 8) {
 				this.transform.SetParent (col.transform);
