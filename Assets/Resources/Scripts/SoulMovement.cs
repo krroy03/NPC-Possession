@@ -19,13 +19,13 @@ public class SoulMovement : MonoBehaviour {
 		}
 
 		if (returnToPlayer) {
-			ReturnTo (new Vector3 (head.position.x, head.position.y / 2f, head.position.z));
+			ReturnTo (new Vector3 (head.position.x, 3f*head.position.y/4f, head.position.z));
 		}
 
 	}
 
 	void FollowHeadPos() {
-		Vector3 temp = new Vector3 (head.position.x, head.position.y / 2f, head.position.z);
+		Vector3 temp = new Vector3 (head.position.x, 3f*head.position.y/4f, head.position.z);
 		this.transform.position = temp;
 	}
 

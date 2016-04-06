@@ -57,10 +57,15 @@ public class HandControls : MonoBehaviour
 			if (!movingObj) {
 				if (currentObj != null) {
 					currentObj.transform.parent = this.transform;
+
 					movingObj = true;
 					Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 					if (rg != null) {
 						currentObj.GetComponent<Rigidbody> ().isKinematic = true;
+						if (currentObj.tag == "Soul") {
+							currentObj.GetComponent<SoulMovement> ().followHead = false;
+							currentObj.GetComponent<MeshRenderer> ().enabled = true;
+						}
 					}
                     
 				}
@@ -80,10 +85,14 @@ public class HandControls : MonoBehaviour
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-					currentObj.GetComponent<GravityBody> ().planet = null;
 					rg.AddForce (speed);
 
-					//Debug.Log("speed:"+speed);
+					if (currentObj.tag == "Soul") {
+						// if soul doesn't hit npc, return it to player after 5 seconds
+						StartCoroutine (currentObj.GetComponent<SoulMovement> ().ResetSoulPositionIfMiss (5f));
+					} else if (currentObj.layer == 8 ) {
+						currentObj.GetComponent<GravityBody> ().planet = null;
+					}
 				}
 				movingObj = false;
 				currentObj = null;
@@ -94,7 +103,7 @@ public class HandControls : MonoBehaviour
 	void OnTriggerEnter (Collider col)
 	{
 		if (!movingObj) {
-			if (col.gameObject.layer == 8) {
+			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				currentObj = col.gameObject;
 				MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
 				currentObjMeshRenderer.material.color = Color.blue;
@@ -104,7 +113,7 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
-		if (col.gameObject.layer == 8) {
+		if (col.gameObject.layer == 8  || col.gameObject.tag == "Soul") {
 			col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
 		}
 	}
