@@ -125,6 +125,9 @@ public class HandControls : MonoBehaviour
 	{
 		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 			col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+			if (!movingObj && currentObj) {
+				currentObj = null;
+			}
 		}
 	}
 }
