@@ -25,6 +25,17 @@ public class GravityBody : MonoBehaviour {
 	}
 
 
+	void OnTriggerExit(Collider col) {
+		if (col.gameObject.tag == "Planet") {
+			planet = null;
+		}
+	}
 
+	void OnTriggerEnter(Collider col) {
+		if (col.gameObject.tag == "Planet") {
+			planet = col.gameObject;
+			this.transform.SetParent (col.transform);
+		}
+	}
 
 }

@@ -82,7 +82,8 @@ public class HandControls : MonoBehaviour
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					rg.AddForce (speed);
 					if (currentObj.layer == 8 ) {
-						currentObj.GetComponent<GravityBody> ().planet = null;
+						
+						//currentObj.GetComponent<GravityBody> ().planet = null;
 					}
 				}
 				movingObj = false;
@@ -93,10 +94,11 @@ public class HandControls : MonoBehaviour
 
 	// presss touchpad to return
 	void ReturnSoul() {
-		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Touchpad))) {
+		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
 			handAnimator.SetBool ("Idle", true);
 			handAnimator.SetBool ("Fist", false);
 			if (!currentObj && !movingObj) {
+				Debug.Log ("return soul");
 				soul.ReturnSoul ();
 			}
 		}
