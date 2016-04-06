@@ -81,7 +81,6 @@ public class PossessionMechanic : MonoBehaviour {
 
 					UIManager.Instance.SetCircleTimerVal (lookTime / timeNeeded);
 					if (lookingAt) {
-						Debug.Log("gets here");
 						lookingAt.GetComponent<NPC> ().LookAwayFromPlayer ();
 						lookingAt = null;
 					}

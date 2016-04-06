@@ -24,11 +24,6 @@ public class GravityAttractor : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col) {
-		if (col.gameObject.layer == 8) {
-			// gravitational objects
-			// then parent to planet 
-			col.gameObject.transform.SetParent(this.transform);
-
-		}
+		
 	}
 }

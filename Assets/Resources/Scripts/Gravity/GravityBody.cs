@@ -37,6 +37,14 @@ public class GravityBody : MonoBehaviour {
 		if (col.gameObject.tag == "Planet" && !beingControlled) {
 			planet = col.gameObject.GetComponent<GravityAttractor> ();
 			if (this.gameObject.layer == 8) {
+				//this.transform.SetParent (col.transform);
+			}
+		}
+	}
+
+	void OnCollisionEnter(Collision col) {
+		if (col.gameObject.tag == "Planet" && !beingControlled) {
+			if (this.gameObject.layer == 8) {
 				this.transform.SetParent (col.transform);
 			}
 		}

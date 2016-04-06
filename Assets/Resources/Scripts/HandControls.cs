@@ -43,6 +43,7 @@ public class HandControls : MonoBehaviour
 
 		MoveObject ();
 		ReleaseObject ();
+		ReturnSoul ();
 	}
 
 	void FixedUpdate ()
@@ -87,6 +88,7 @@ public class HandControls : MonoBehaviour
 
 					} else if (currentObj.layer == 8) {
 						currentObj.GetComponent<GravityBody> ().beingControlled = false;
+						currentObj.GetComponent<GravityBody> ().planet = null;
 					}
 				}
 				movingObj = false;
@@ -98,13 +100,11 @@ public class HandControls : MonoBehaviour
 	// presss touchpad to return
 	void ReturnSoul ()
 	{
-		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
+		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Touchpad))) {
 			handAnimator.SetBool ("Idle", true);
 			handAnimator.SetBool ("Fist", false);
 
-			Debug.Log ("return soul2");
 			if (!currentObj && !movingObj) {
-				Debug.Log ("return soul");
 				soul.ReturnSoul ();
 			}
 		}
@@ -112,7 +112,7 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerEnter (Collider col)
 	{
-		if (!movingObj) {
+		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				currentObj = col.gameObject;
 				MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
