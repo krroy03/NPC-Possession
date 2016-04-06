@@ -30,7 +30,11 @@ public class HandControls : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-
+		if (left) 
+			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Leftmost);
+		else
+			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
+		
 		curPos = this.transform.position;
 		speed = 100f * (curPos - prePos) * (1 / Time.deltaTime);
 		prePos = curPos;
@@ -46,18 +50,12 @@ public class HandControls : MonoBehaviour
 
 	void MoveObject ()
 	{
-		if (left)
-			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Leftmost);
-		else
-			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
-		//Debug.Log("deviceIndex = " + deviceIndex);
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
 			handAnimator.SetBool ("Fist", true);
 			handAnimator.SetBool ("Idle", false);
 			if (!movingObj) {
 				if (currentObj != null) {
 					currentObj.transform.parent = this.transform;
-
 					movingObj = true;
 					Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 					if (rg != null) {
@@ -67,11 +65,8 @@ public class HandControls : MonoBehaviour
 							currentObj.GetComponent<MeshRenderer> ().enabled = true;
 						}
 					}
-                    
-				}
-					
+				}	
 			}
-
 		}
 	}
 
@@ -86,7 +81,6 @@ public class HandControls : MonoBehaviour
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					rg.AddForce (speed);
-
 					if (currentObj.tag == "Soul") {
 						// if soul doesn't hit npc, return it to player after 5 seconds
 						StartCoroutine (currentObj.GetComponent<SoulMovement> ().ResetSoulPositionIfMiss (5f));

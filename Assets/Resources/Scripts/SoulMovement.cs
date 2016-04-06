@@ -43,11 +43,12 @@ public class SoulMovement : MonoBehaviour {
 		Vector3 moveDir = pos - this.transform.position;
 		this.transform.Translate (moveDir * Time.deltaTime * returnSpeed, Space.World);
 
-		if (Vector3.Distance (this.transform.position, pos) <= 0.001f) {
+		if (Vector3.Distance (this.transform.position, pos) <= 0.5f) {
 			returnToPlayer = false;
 			followHead = true;
 			this.GetComponent<SphereCollider> ().enabled = true;
 			this.GetComponent<Rigidbody> ().isKinematic = false;
+			this.GetComponent<MeshRenderer> ().enabled = false;
 		}
 	}
 }

@@ -12,6 +12,8 @@ public class ObjectThrow : MonoBehaviour {
 
 	void Start() {
 		gBody = this.gameObject.GetComponent<GravityBody> ();
+
+		cam = GameObject.Find("CamContainer");
 	}
 
 	void FixedUpdate ()
@@ -19,7 +21,6 @@ public class ObjectThrow : MonoBehaviour {
 		// when move the object, set the current player
 
 		if (GetComponent<Rigidbody> ().isKinematic == true) {
-			cam = GameObject.Find("CamContainer");
 			npcTransform = cam.transform.GetChild(cam.transform.childCount - 1);
 			npc = npcTransform.gameObject;
 		}
