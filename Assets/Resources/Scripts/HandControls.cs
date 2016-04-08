@@ -83,7 +83,7 @@ public class HandControls : MonoBehaviour
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-					rg.AddForce (speed);
+					rg.AddForce (speed.magnitude*this.transform.forward);
 					if (currentObj.tag == "Soul") {
 
 					} else if (currentObj.layer == 8) {
@@ -113,7 +113,7 @@ public class HandControls : MonoBehaviour
 		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0) {
-					MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
+					MeshRenderer currentObjMeshRenderer = col.gameObject.GetComponent<MeshRenderer> ();
 					if (left) {
 						currentObjMeshRenderer.material.color = Color.blue;
 					} else {
