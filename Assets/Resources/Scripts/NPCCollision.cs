@@ -29,9 +29,9 @@ public class NPCCollision : MonoBehaviour {
 			// teleport to the NPC get hit if NPC I am transferring to is not myself 
 			// and also if obj is moving when it hits npc
 			//Test
-			obj.npc = GameObject.Find ("Roy");
+			//obj.npc = GameObject.Find ("Roy");
 
-			//if (obj.GetComponent<Rigidbody> ().velocity.magnitude > 0.01f && !obj.GetComponent<Rigidbody> ().isKinematic && obj.npc && (obj.npc != NPC))   
+			if (obj.GetComponent<Rigidbody> ().velocity.magnitude > 0.01f && !obj.GetComponent<Rigidbody> ().isKinematic && obj.npc && (obj.npc != NPC))   
 			{
 				isCollide = true;
 				end = obj.npc.transform.position;
@@ -64,9 +64,12 @@ public class NPCCollision : MonoBehaviour {
 				ObjectThrow obj = soul.GetComponent<ObjectThrow> ();
 				obj.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 				pm.PossessNewNPC (NPC);
-			    //soul.GetComponent<SoulMovement> ().followHead = true;
-				//soul.GetComponent<MeshRenderer> ().enabled = false;
+
+
 				isCollide = false;
+
+				soul.GetComponent<SoulMovement> ().followHead = true;
+				soul.GetComponent<MeshRenderer> ().enabled = false;
 			}
 		}
 
