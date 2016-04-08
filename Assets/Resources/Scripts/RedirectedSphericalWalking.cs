@@ -14,8 +14,8 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 	public Transform player;
 
-	public Transform leftController; 
-	public Transform rightController; 
+	public Transform leftController;
+	public Transform rightController;
 
 
 	private Vector3 oldPos;
@@ -38,13 +38,10 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	Vector3 smoothMoveVelocity;
 	Rigidbody thisRigidBody;
 
-	private float minY = 0.7f;
+	private float controllerThresholdY = 0.6f;
 	// Use this for initialization
 	void Start ()
 	{
-		minY = Mathf.Min (minY, player.localPosition.y / 3f);
-		Debug.Log (minY);
-
 		if (walkingType == WalkingMethod.RotatePlanet) {
 			oldPos = player.transform.position;
 		} else if (walkingType == WalkingMethod.RotatePlayer) {
@@ -58,8 +55,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (onPlanet && pm.finishedShifting && (leftController.localPosition.y >= minY && rightController.localPosition.y >= minY)) {
-		//if (onPlanet && pm.finishedShifting) {
+		if (onPlanet && pm.finishedShifting) {
 			if (walkingType == WalkingMethod.RotatePlanet) {
 				PlanetRotation ();
 			} else if (walkingType == WalkingMethod.RotatePlayer) {
@@ -72,7 +68,8 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		if (walkingType == WalkingMethod.RotatePlayer) {
+		if (walkingType == WalkingMethod.RotatePlayer && 
+			(leftController.localPosition.y >= controllerThresholdY && rightController.localPosition.y >= controllerThresholdY)) {
 			// Apply movement to rigidbody
 			Vector3 localMove = transform.TransformDirection (moveAmount) * Time.fixedDeltaTime;
 			thisRigidBody.MovePosition (thisRigidBody.position + localMove);
@@ -146,8 +143,10 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 		Vector3 temp = new Vector3 (-zDiff, 0f, xDiff);
 		temp *= rotationScale;
-
-		planet.Rotate (temp, Space.World);
+		if (leftController.localPosition.y >= controllerThresholdY && rightController.localPosition.y >= controllerThresholdY) {
+			// only rotate the planet if controllers not below threshold 
+			planet.Rotate (temp, Space.World);
+		}
 		oldPos = newPos;
 	}
 
