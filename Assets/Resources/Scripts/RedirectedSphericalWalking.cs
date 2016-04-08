@@ -63,6 +63,8 @@ public class RedirectedSphericalWalking : MonoBehaviour
 			}
 		} else {
 			Debug.Log ("gets here");
+			Debug.Log (onPlanet);
+			Debug.Log (pm.finishedShifting);
 		}
 	}
 
