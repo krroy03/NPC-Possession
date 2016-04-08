@@ -17,6 +17,7 @@ public class PossessionMechanic : MonoBehaviour {
 	public bool reachedPlanet = false; 
 	public int shiftCount = 0;
 
+
 	private float shiftStopDist = 0.01f;
 
 
