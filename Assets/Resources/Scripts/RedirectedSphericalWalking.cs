@@ -61,11 +61,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 			} else if (walkingType == WalkingMethod.RotatePlayer) {
 				TrackingSpaceMovement ();
 			}
-		} else {
-			Debug.Log ("gets here");
-			Debug.Log (onPlanet);
-			Debug.Log (pm.finishedShifting);
-		}
+		} 
 	}
 
 	void FixedUpdate ()
@@ -164,7 +160,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 	void OnTriggerExit (Collider other)
 	{
-		if (other.tag == "Planet") {
+		if (other.tag == "Planet" && pm.shiftCount > 0) {
 			onPlanet = false;
 			planet = null;
 		}
