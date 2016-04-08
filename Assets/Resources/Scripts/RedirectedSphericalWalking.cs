@@ -14,6 +14,10 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 	public Transform player;
 
+	public Transform leftController; 
+	public Transform rightController; 
+
+
 	private Vector3 oldPos;
 	private Vector3 newPos;
 
@@ -34,9 +38,13 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	Vector3 smoothMoveVelocity;
 	Rigidbody thisRigidBody;
 
+	private float minY = 0.7f;
 	// Use this for initialization
 	void Start ()
 	{
+		minY = Mathf.Min (minY, player.position.y / 3f);
+		Debug.Log (minY);
+
 		if (walkingType == WalkingMethod.RotatePlanet) {
 			oldPos = player.transform.position;
 		} else if (walkingType == WalkingMethod.RotatePlayer) {
@@ -50,12 +58,14 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (onPlanet && pm.finishedShifting) {
+		if (onPlanet && pm.finishedShifting && (leftController.position.y >= minY || rightController.position.y >= minY)) {
 			if (walkingType == WalkingMethod.RotatePlanet) {
 				PlanetRotation ();
 			} else if (walkingType == WalkingMethod.RotatePlayer) {
 				TrackingSpaceMovement ();
 			}
+		} else {
+			Debug.Log ("gets here");
 		}
 	}
 
@@ -115,7 +125,6 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 	void PlanetRotation ()
 	{
-
 		newPos = player.transform.position;
 		if (pm.reachedPlanet) {
 			oldPos = newPos;
