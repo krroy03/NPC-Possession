@@ -54,8 +54,8 @@ public class HandControls : MonoBehaviour
 	void MoveObject ()
 	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
-			handAnimator.SetBool ("Fist", true);
-			handAnimator.SetBool ("Idle", false);
+			//handAnimator.SetBool ("Fist", true);
+			//handAnimator.SetBool ("Idle", false);
 			if (!movingObj && currentObj) {
 				currentObj.transform.parent = this.transform;
 				movingObj = true;
@@ -76,8 +76,8 @@ public class HandControls : MonoBehaviour
 	void ReleaseObject ()
 	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressUp (SteamVR_Controller.ButtonMask.Trigger))) {
-			handAnimator.SetBool ("Idle", true);
-			handAnimator.SetBool ("Fist", false);
+			//handAnimator.SetBool ("Idle", true);
+			//handAnimator.SetBool ("Fist", false);
 			if (currentObj && movingObj) {
 				currentObj.transform.SetParent (null);
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
@@ -101,8 +101,8 @@ public class HandControls : MonoBehaviour
 	void ReturnSoul ()
 	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Touchpad))) {
-			handAnimator.SetBool ("Idle", true);
-			handAnimator.SetBool ("Fist", false);
+			//handAnimator.SetBool ("Idle", true);
+			//handAnimator.SetBool ("Fist", false);
 
 			soul.ReturnSoul ();
 		}
@@ -135,9 +135,6 @@ public class HandControls : MonoBehaviour
 			}
 			if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0)
 				col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
-			if (!movingObj && currentObj) {
-				currentObj = null;
-			}
 		}
 	}
 }
