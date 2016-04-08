@@ -15,6 +15,7 @@ public class PossessionMechanic : MonoBehaviour {
 	private bool shifting = false; 
 	public bool finishedShifting = false; 
 	public bool reachedPlanet = false; 
+	public int shiftCount = 0;
 
 	private float shiftStopDist = 0.01f;
 
@@ -125,7 +126,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 		transition.StartFX ();
 		moveSound.Play ();
-
+		shiftCount++;
 	}
 
 

@@ -58,7 +58,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (onPlanet && pm.finishedShifting && (leftController.position.y >= minY || rightController.position.y >= minY)) {
+		if (onPlanet && pm.finishedShifting && (leftController.position.y >= minY && rightController.position.y >= minY)) {
 			if (walkingType == WalkingMethod.RotatePlanet) {
 				PlanetRotation ();
 			} else if (walkingType == WalkingMethod.RotatePlayer) {
@@ -162,7 +162,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 	void OnTriggerExit (Collider other)
 	{
-		if (other.tag == "Planet") {
+		if (other.tag == "Planet" && pm.shiftCount > 0) {
 			onPlanet = false;
 			planet = null;
 		}
