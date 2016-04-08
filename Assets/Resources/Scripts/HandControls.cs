@@ -53,7 +53,8 @@ public class HandControls : MonoBehaviour
 
 	void MoveObject ()
 	{
-		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger))) {
+		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) || Input.GetMouseButtonDown(0)) {
+			Debug.Log ("gets here1");
 			//handAnimator.SetBool ("Fist", true);
 			//handAnimator.SetBool ("Idle", false);
 			if (!movingObj && currentObj) {
@@ -75,7 +76,8 @@ public class HandControls : MonoBehaviour
 
 	void ReleaseObject ()
 	{
-		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressUp (SteamVR_Controller.ButtonMask.Trigger))) {
+		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) || Input.GetMouseButtonUp(0)) {
+			Debug.Log ("gets here2");
 			//handAnimator.SetBool ("Idle", true);
 			//handAnimator.SetBool ("Fist", false);
 			if (currentObj && movingObj) {
@@ -129,16 +131,15 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
-		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
+		if (!movingObj) {
+			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 
-			if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand > 0) {
-				col.gameObject.GetComponent<ObjectThrow> ().touchingHand--; 
-			}
-			if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0)
-				col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand > 0) {
+					col.gameObject.GetComponent<ObjectThrow> ().touchingHand--; 
+				}
+				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0)
+					col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
 
-			if (!movingObj && currentObj) {
-				currentObj = null;
 			}
 		}
 	}
