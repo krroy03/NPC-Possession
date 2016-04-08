@@ -147,10 +147,7 @@ public class HandControls : MonoBehaviour
 					}
 
 				}
-
-				if (currentObj) {
-					currentObj = null;
-				}
+				
 			}
 	}
 }
