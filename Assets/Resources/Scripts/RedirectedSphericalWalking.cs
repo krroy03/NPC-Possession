@@ -42,7 +42,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		minY = Mathf.Min (minY, player.position.y / 3f);
+		minY = Mathf.Min (minY, player.localPosition.y / 3f);
 		Debug.Log (minY);
 
 		if (walkingType == WalkingMethod.RotatePlanet) {
@@ -58,7 +58,8 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (onPlanet && pm.finishedShifting && (leftController.position.y >= minY && rightController.position.y >= minY)) {
+		if (onPlanet && pm.finishedShifting && (leftController.localPosition.y >= minY && rightController.localPosition.y >= minY)) {
+		//if (onPlanet && pm.finishedShifting) {
 			if (walkingType == WalkingMethod.RotatePlanet) {
 				PlanetRotation ();
 			} else if (walkingType == WalkingMethod.RotatePlayer) {
@@ -162,7 +163,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 
 	void OnTriggerExit (Collider other)
 	{
-		if (other.tag == "Planet" && pm.shiftCount > 0) {
+		if (other.tag == "Planet") {
 			onPlanet = false;
 			planet = null;
 		}
