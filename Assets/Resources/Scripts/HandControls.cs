@@ -136,6 +136,10 @@ public class HandControls : MonoBehaviour
 			}
 			if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0)
 				col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+
+			if (!movingObj && currentObj) {
+				currentObj = null;
+			}
 		}
 	}
 }
