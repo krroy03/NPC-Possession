@@ -132,7 +132,6 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
-		if (!movingObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 
 				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand) {
@@ -153,6 +152,5 @@ public class HandControls : MonoBehaviour
 					currentObj = null;
 				}
 			}
-		}
 	}
 }
