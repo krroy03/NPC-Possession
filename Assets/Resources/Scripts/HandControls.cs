@@ -114,9 +114,12 @@ public class HandControls : MonoBehaviour
 	{
 		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
-				currentObj = col.gameObject;
-				MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
-				currentObjMeshRenderer.material.color = Color.blue;
+				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0) {
+					currentObj = col.gameObject;
+					MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
+					currentObjMeshRenderer.material.color = Color.blue;
+				}
+				col.gameObject.GetComponent<ObjectThrow> ().touchingHand ++;
 			}
 		}
 	}
@@ -124,9 +127,12 @@ public class HandControls : MonoBehaviour
 	void OnTriggerExit (Collider col)
 	{
 		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
-			col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
-			if (!movingObj && currentObj) {
-				currentObj = null;
+			if (this.currentObj && this.currentObj.Equals(col.gameObject)) {
+				col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+				if (!movingObj && currentObj) {
+					currentObj = null;
+				}
+				col.gameObject.GetComponent<ObjectThrow> ().touchingHand--; 
 			}
 		}
 	}

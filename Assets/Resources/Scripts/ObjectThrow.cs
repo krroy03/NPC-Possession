@@ -8,6 +8,7 @@ public class ObjectThrow : MonoBehaviour {
 	public GameObject npc = null;
 
 
+	public int touchingHand = 0; 
 
 	void Start() {
 
