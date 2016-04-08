@@ -113,13 +113,14 @@ public class HandControls : MonoBehaviour
 		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0) {
-					currentObj = col.gameObject;
 					MeshRenderer currentObjMeshRenderer = currentObj.GetComponent<MeshRenderer> ();
 					if (left) {
 						currentObjMeshRenderer.material.color = Color.blue;
 					} else {
 						currentObjMeshRenderer.material.color = Color.green;
 					}
+
+					currentObj = col.gameObject;
 				}
 				col.gameObject.GetComponent<ObjectThrow> ().touchingHand++;
 			}
