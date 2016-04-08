@@ -104,9 +104,7 @@ public class HandControls : MonoBehaviour
 			handAnimator.SetBool ("Idle", true);
 			handAnimator.SetBool ("Fist", false);
 
-			if (!currentObj && !movingObj) {
-				soul.ReturnSoul ();
-			}
+			soul.ReturnSoul ();
 		}
 	}
 
@@ -120,24 +118,25 @@ public class HandControls : MonoBehaviour
 					if (left) {
 						currentObjMeshRenderer.material.color = Color.blue;
 					} else {
-						currentObjMeshRenderer.material.color = Color.red;
+						currentObjMeshRenderer.material.color = Color.green;
 					}
 				}
-				col.gameObject.GetComponent<ObjectThrow> ().touchingHand ++;
+				col.gameObject.GetComponent<ObjectThrow> ().touchingHand++;
 			}
 		}
 	}
 
 	void OnTriggerExit (Collider col)
 	{
-		if (!movingObj && !currentObj) {
-			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
+		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
+
+			if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand > 0) {
 				col.gameObject.GetComponent<ObjectThrow> ().touchingHand--; 
-				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0)
-					col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
-				if (!movingObj && currentObj) {
-					currentObj = null;
-				}
+			}
+			if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand == 0)
+				col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+			if (!movingObj && currentObj) {
+				currentObj = null;
 			}
 		}
 	}
