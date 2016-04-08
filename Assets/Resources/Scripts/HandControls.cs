@@ -83,7 +83,7 @@ public class HandControls : MonoBehaviour
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-					rg.AddForce (speed.magnitude*this.transform.forward);
+					rg.AddForce (speed);
 					if (currentObj.tag == "Soul") {
 
 					} else if (currentObj.layer == 8) {
