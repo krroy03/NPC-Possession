@@ -120,6 +120,17 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerEnter (Collider col)
 	{
+		if (triedToPickUp) {
+			triedToPickUp = false;
+			return;
+		}
+
+		if (triedToRelease) {
+			triedToRelease = false;
+			return;
+		}
+
+		Debug.Log ("gets here4");
 		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
@@ -145,15 +156,13 @@ public class HandControls : MonoBehaviour
 	void OnTriggerExit (Collider col)
 	{
 		if (triedToPickUp) {
-			triedToPickUp = false;
 			return;
 		}
 
 		if (triedToRelease) {
-			triedToRelease = false;
 			return;
 		}
-		Debug.Log ("gets here");
+		Debug.Log ("gets here3");
 		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 
 			ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
@@ -165,12 +174,14 @@ public class HandControls : MonoBehaviour
 					objThrow.touchingHand = false;
 					objThrow.hand = 0;
 					currentObj = null;
+					movingObj = false;
 				}
 				if (!left && objThrow.hand == 2) {
 					col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
 					objThrow.touchingHand = false;
 					objThrow.hand = 0;
 					currentObj = null;
+					movingObj = false;
 				}
 
 			}
