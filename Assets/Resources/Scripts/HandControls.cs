@@ -37,6 +37,13 @@ public class HandControls : MonoBehaviour
 		else
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
 		
+
+
+
+	}
+
+	void FixedUpdate ()
+	{
 		curPos = this.transform.position;
 		speed = 100f * (curPos - prePos) * (1 / Time.deltaTime);
 		prePos = curPos;
@@ -44,11 +51,6 @@ public class HandControls : MonoBehaviour
 		MoveObject ();
 		ReleaseObject ();
 		ReturnSoul ();
-	}
-
-	void FixedUpdate ()
-	{
-
 	}
 
 	void MoveObject ()
