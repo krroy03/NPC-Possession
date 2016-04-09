@@ -9,6 +9,8 @@ public class ObjectThrow : MonoBehaviour {
 
 
 	public bool touchingHand = false; 
+	public int hand = 0;
+
 	void Start() {
 
 		cam = GameObject.Find("CamContainer");

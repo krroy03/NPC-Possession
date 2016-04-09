@@ -53,6 +53,7 @@ public class HandControls : MonoBehaviour
 		ReturnSoul ();
 	}
 
+	private bool triedToPickUp = false;
 	void MoveObject ()
 	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) || Input.GetMouseButtonDown (0)) {
@@ -68,6 +69,7 @@ public class HandControls : MonoBehaviour
 				}
 				currentObj.transform.parent = this.transform;
 				movingObj = true;
+				triedToPickUp = true;
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = true;
@@ -77,6 +79,8 @@ public class HandControls : MonoBehaviour
 		}
 	}
 
+
+	private bool triedToRelease = false;
 	void ReleaseObject ()
 	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) || Input.GetMouseButtonUp (0)) {
@@ -85,6 +89,7 @@ public class HandControls : MonoBehaviour
 			//handAnimator.SetBool ("Fist", false);
 			if (currentObj && movingObj) {
 				currentObj.transform.SetParent (null);
+				triedToRelease = true;
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
@@ -117,12 +122,16 @@ public class HandControls : MonoBehaviour
 	{
 		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
-				if (!col.gameObject.GetComponent<ObjectThrow> ().touchingHand) {
+				ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
+				if (!objThrow.touchingHand) {
 					MeshRenderer currentObjMeshRenderer = col.gameObject.GetComponent<MeshRenderer> ();
 					if (left) {
 						currentObjMeshRenderer.material.color = Color.blue;
+						objThrow.hand = 1;
+
 					} else {
 						currentObjMeshRenderer.material.color = Color.green;
+						objThrow.hand = 2;
 					}
 
 					currentObj = col.gameObject;
@@ -135,22 +144,38 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
-			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
+		if (triedToPickUp) {
+			triedToPickUp = false;
+			return;
+		}
 
-				if (col.gameObject.GetComponent<ObjectThrow> ().touchingHand) {
-					MeshRenderer currentObjMeshRenderer = col.gameObject.GetComponent<MeshRenderer> ();
-					if (left && currentObjMeshRenderer.material.color == Color.blue) {
+		if (triedToRelease) {
+			triedToRelease = false;
+			return;
+		}
+		Debug.Log ("gets here");
+		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 
-						col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
-						col.gameObject.GetComponent<ObjectThrow> ().touchingHand = false;
-					}
-					if (!left && currentObjMeshRenderer.material.color == Color.green) {
-						col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
-						col.gameObject.GetComponent<ObjectThrow> ().touchingHand = false;
-					}
+			ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
+			if (objThrow.touchingHand) {
+				MeshRenderer currentObjMeshRenderer = col.gameObject.GetComponent<MeshRenderer> ();
+				if (left && objThrow.hand == 1) {
 
+					col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+					objThrow.touchingHand = false;
+					objThrow.hand = 0;
+					currentObj = null;
 				}
-				
+				if (!left && objThrow.hand == 2) {
+					col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
+					objThrow.touchingHand = false;
+					objThrow.hand = 0;
+					currentObj = null;
+				}
+
 			}
+
+				
+		}
 	}
 }
