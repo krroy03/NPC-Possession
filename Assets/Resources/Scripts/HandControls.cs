@@ -58,17 +58,18 @@ public class HandControls : MonoBehaviour
 			//handAnimator.SetBool ("Fist", true);
 			//handAnimator.SetBool ("Idle", false);
 			if (!movingObj && currentObj) {
+				if (currentObj.tag == "Soul") {
+					currentObj.GetComponent<SoulMovement> ().followHead = false;
+					currentObj.GetComponent<MeshRenderer> ().enabled = true;
+				} else if (currentObj.layer == 8) {
+					currentObj.GetComponent<GravityBody> ().beingControlled = true;
+				}
 				currentObj.transform.parent = this.transform;
 				movingObj = true;
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = true;
-					if (currentObj.tag == "Soul") {
-						currentObj.GetComponent<SoulMovement> ().followHead = false;
-						currentObj.GetComponent<MeshRenderer> ().enabled = true;
-					} else if (currentObj.layer == 8) {
-						currentObj.GetComponent<GravityBody> ().beingControlled = true;
-					}
+
 				}
 			}
 		}
