@@ -39,11 +39,6 @@ public class HandControls : MonoBehaviour
 		
 
 
-
-	}
-
-	void FixedUpdate ()
-	{
 		curPos = this.transform.position;
 		speed = 100f * (curPos - prePos) * (1 / Time.deltaTime);
 		prePos = curPos;
@@ -51,6 +46,11 @@ public class HandControls : MonoBehaviour
 		MoveObject ();
 		ReleaseObject ();
 		ReturnSoul ();
+	}
+
+	void FixedUpdate ()
+	{
+		
 	}
 
 	private bool triedToPickUp = false;
@@ -90,7 +90,7 @@ public class HandControls : MonoBehaviour
 			if (currentObj && movingObj) {
 				currentObj.transform.SetParent (null);
 				triedToRelease = true;
-				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
+				Rigidbody rg = currentObj.GetComponent<Rigidbody> (); 
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					rg.AddForce (speed);
@@ -122,12 +122,12 @@ public class HandControls : MonoBehaviour
 	{
 		if (triedToPickUp) {
 			triedToPickUp = false;
-			return;
+			//return;
 		}
 
 		if (triedToRelease) {
 			triedToRelease = false;
-			return;
+			//return;
 		}
 
 		Debug.Log ("gets here4");
@@ -156,11 +156,11 @@ public class HandControls : MonoBehaviour
 	void OnTriggerExit (Collider col)
 	{
 		if (triedToPickUp) {
-			return;
+			//return;
 		}
 
 		if (triedToRelease) {
-			return;
+			//return;
 		}
 		Debug.Log ("gets here3");
 		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
