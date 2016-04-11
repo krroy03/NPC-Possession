@@ -57,7 +57,7 @@ public class HandControls : MonoBehaviour
 	void MoveObject ()
 	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressDown (SteamVR_Controller.ButtonMask.Trigger)) || Input.GetMouseButtonDown (0)) {
-			Debug.Log ("gets here1");
+			
 			//handAnimator.SetBool ("Fist", true);
 			//handAnimator.SetBool ("Idle", false);
 			if (!movingObj && currentObj) {
@@ -72,6 +72,7 @@ public class HandControls : MonoBehaviour
 				currentObj.transform.parent = this.transform;
 				movingObj = true;
 				triedToPickUp = true;
+
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = true;
@@ -86,7 +87,7 @@ public class HandControls : MonoBehaviour
 	void ReleaseObject ()
 	{
 		if ((deviceIndex != -1 && SteamVR_Controller.Input (deviceIndex).GetPressUp (SteamVR_Controller.ButtonMask.Trigger)) || Input.GetMouseButtonUp (0)) {
-			Debug.Log ("gets here2");
+			
 			//handAnimator.SetBool ("Idle", true);
 			//handAnimator.SetBool ("Fist", false);
 			if (currentObj && movingObj) {
@@ -134,7 +135,6 @@ public class HandControls : MonoBehaviour
 			//return;
 		}
 
-		Debug.Log ("gets here4");
 		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
@@ -164,7 +164,6 @@ public class HandControls : MonoBehaviour
 		if (triedToRelease) {
 			//return;
 		}
-		Debug.Log ("gets here3");
 		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 			ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
 			if (objThrow.touchingHand) {
