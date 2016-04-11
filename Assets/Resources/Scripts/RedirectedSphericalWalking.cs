@@ -38,7 +38,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	Vector3 smoothMoveVelocity;
 	Rigidbody thisRigidBody;
 
-	private float controllerThresholdY = 0.6f;
+	public float controllerThresholdY = 0.5f;
 	private bool gotThreshold = false;
 	// Use this for initialization
 	void Start ()
@@ -148,6 +148,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 		temp *= rotationScale;
 		if (leftController.localPosition.y >= controllerThresholdY && rightController.localPosition.y >= controllerThresholdY) {
 			// only rotate the planet if controllers not below threshold 
+			Debug.Log ("gets here 3");
 			planet.Rotate (temp, Space.World);
 		}
 		oldPos = newPos;
