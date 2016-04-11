@@ -56,7 +56,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (onPlanet && pm.finishedShifting) {
+		if (planet && onPlanet && pm.finishedShifting) {
 			if (!gotThreshold) {
 				controllerThresholdY = 2f*player.position.y / 3f;
 				gotThreshold = true;

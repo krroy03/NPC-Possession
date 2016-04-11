@@ -33,7 +33,9 @@ public class PossessionMechanic : MonoBehaviour {
 	void Start () {
 
 		transition = this.gameObject.GetComponent<TransitionEffect> ();
-		parentNPCToCam (currentNPC);
+		if (currentNPC) {
+			parentNPCToCam (currentNPC);
+		}
 		npcList = GameObject.Find ("NPCs").transform;
 		finishedShifting = true;
 	}

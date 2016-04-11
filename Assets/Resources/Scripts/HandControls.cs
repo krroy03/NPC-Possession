@@ -61,12 +61,14 @@ public class HandControls : MonoBehaviour
 			//handAnimator.SetBool ("Fist", true);
 			//handAnimator.SetBool ("Idle", false);
 			if (!movingObj && currentObj) {
+				// change values for soul and objects
 				if (currentObj.tag == "Soul") {
 					currentObj.GetComponent<SoulMovement> ().followHead = false;
 					currentObj.GetComponent<MeshRenderer> ().enabled = true;
 				} else if (currentObj.layer == 8) {
 					currentObj.GetComponent<GravityBody> ().beingControlled = true;
 				}
+				// indicate that we are picking up an object
 				currentObj.transform.parent = this.transform;
 				movingObj = true;
 				triedToPickUp = true;
@@ -88,18 +90,20 @@ public class HandControls : MonoBehaviour
 			//handAnimator.SetBool ("Idle", true);
 			//handAnimator.SetBool ("Fist", false);
 			if (currentObj && movingObj) {
+				// change values for soul and objects
+				if (currentObj.tag == "Soul") {
+
+				} else if (currentObj.layer == 8) {
+					currentObj.GetComponent<GravityBody> ().beingControlled = false;
+					currentObj.GetComponent<GravityBody> ().planet = null;
+				}
+				// indicate that we have released an object
 				currentObj.transform.SetParent (null);
 				triedToRelease = true;
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> (); 
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					rg.AddForce (speed);
-					if (currentObj.tag == "Soul") {
-
-					} else if (currentObj.layer == 8) {
-						currentObj.GetComponent<GravityBody> ().beingControlled = false;
-						currentObj.GetComponent<GravityBody> ().planet = null;
-					}
 				}
 				movingObj = false;
 				currentObj = null;
@@ -135,18 +139,16 @@ public class HandControls : MonoBehaviour
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
 				if (!objThrow.touchingHand) {
-					MeshRenderer currentObjMeshRenderer = col.gameObject.GetComponent<MeshRenderer> ();
+					// change color of object we are touching
+					ObjectColor objColor = col.gameObject.GetComponent<ObjectColor> ();
+					objColor.TouchingHands ();
+					// now change values to indicate we are touching it 
 					if (left) {
-						currentObjMeshRenderer.material.color = Color.blue;
 						objThrow.hand = 1;
-
 					} else {
-						currentObjMeshRenderer.material.color = Color.green;
 						objThrow.hand = 2;
 					}
-
 					currentObj = col.gameObject;
-
 					col.gameObject.GetComponent<ObjectThrow> ().touchingHand = true;
 				}
 			}
@@ -164,29 +166,25 @@ public class HandControls : MonoBehaviour
 		}
 		Debug.Log ("gets here3");
 		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
-
 			ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
 			if (objThrow.touchingHand) {
-				MeshRenderer currentObjMeshRenderer = col.gameObject.GetComponent<MeshRenderer> ();
+				// change color of object we are not touching anymore
+				ObjectColor objColor = col.gameObject.GetComponent<ObjectColor> ();
+				objColor.NotTouchingHands ();
+				// change values to indicate we are not touching it
 				if (left && objThrow.hand == 1) {
-
-					col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
 					objThrow.touchingHand = false;
 					objThrow.hand = 0;
 					currentObj = null;
 					movingObj = false;
 				}
 				if (!left && objThrow.hand == 2) {
-					col.gameObject.GetComponent<MeshRenderer> ().material.color = Color.white;
 					objThrow.touchingHand = false;
 					objThrow.hand = 0;
 					currentObj = null;
 					movingObj = false;
 				}
-
 			}
-
-				
 		}
 	}
 }
