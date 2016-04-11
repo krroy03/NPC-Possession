@@ -8,7 +8,6 @@ public class ObjectSpawner : MonoBehaviour {
 	public float radius = 0f;
 	public int maxCount = 20;
 	public float interval = 1f;
-	public Color planetColor;
 
 	private Vector3 center; 
 	private int count = 0;

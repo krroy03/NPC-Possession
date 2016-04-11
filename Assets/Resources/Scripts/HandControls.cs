@@ -140,7 +140,7 @@ public class HandControls : MonoBehaviour
 				ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
 				if (!objThrow.touchingHand) {
 					// change color of object we are touching
-					ObjectColor objColor = col.gameObject.GetComponent<ObjectColor> ();
+					ObjectStats objColor = col.gameObject.GetComponent<ObjectStats> ();
 					objColor.TouchingHands ();
 					// now change values to indicate we are touching it 
 					if (left) {
@@ -169,7 +169,7 @@ public class HandControls : MonoBehaviour
 			ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
 			if (objThrow.touchingHand) {
 				// change color of object we are not touching anymore
-				ObjectColor objColor = col.gameObject.GetComponent<ObjectColor> ();
+				ObjectStats objColor = col.gameObject.GetComponent<ObjectStats> ();
 				objColor.NotTouchingHands ();
 				// change values to indicate we are not touching it
 				if (left && objThrow.hand == 1) {
