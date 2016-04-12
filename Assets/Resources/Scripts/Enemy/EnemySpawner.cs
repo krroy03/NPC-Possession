@@ -7,10 +7,9 @@ public class EnemySpawner : MonoBehaviour {
 
 	public float interval = 20f;
 
-
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating ("SpawnObject", 5f, interval);
+		InvokeRepeating ("SpawnObject", 1f, interval);
 	}
 	
 	// Update is called once per frame

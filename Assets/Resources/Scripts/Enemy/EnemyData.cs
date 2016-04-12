@@ -10,9 +10,11 @@ public class EnemyData : MonoBehaviour {
 	// hitpoints same as size, so bigger size means needs more cubes to destroy
 	public int hitPoints;
 
+	public SkinnedMeshRenderer bodyMesh;
 	public Material thisMaterial;
 	// Use this for initialization
 	void Start () {
+		thisMaterial = bodyMesh.material;
 		RandomizeSize ();
 		SetSize ();
 
@@ -25,6 +27,12 @@ public class EnemyData : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	private void CreateMaterial () {
+		// Create a simple material asset
+		//var material = new Material (Shader.Find("Diffuse"));
+		//AssetDatabase.CreateAsset(material, "Assets/" + Selection.activeGameObject.name + ".mat");
 	}
 
 	private void RandomizeColor() {
@@ -44,7 +52,7 @@ public class EnemyData : MonoBehaviour {
 			color = GameColors.Colors.Magenta;
 			break;
 		case(4):
-			color =GameColors.Colors.Cyan;
+			color = GameColors.Colors.Cyan;
 			break;
 		case(5):
 			color = GameColors.Colors.Yellow;
@@ -74,6 +82,11 @@ public class EnemyData : MonoBehaviour {
 			//thisMaterial.color = new Color (1, 1, 0, 1);
 			thisMaterial.color = Color.yellow;
 			break;
+		}
+
+		foreach (Material material in bodyMesh.materials) {
+			material.color = thisMaterial.color;
+
 		}
 	}
 
