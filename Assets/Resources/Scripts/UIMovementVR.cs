@@ -18,17 +18,15 @@ public class UIMovementVR : MonoBehaviour
 	// The speed with which the UI should follow the camera.
 	public bool followY = false;
 
-	public float m_DistanceFromCamera;
-
-	public float camYOffset = 0.2f;
-
 	// The distance the UI should stay from the camera when rotating with it.
+	public float m_DistanceFromCamera;
 
 
 	private void Start ()
 	{
 		// Find the distance from the UI to the camera so the UI can remain at that distance.
 		m_DistanceFromCamera = Vector3.Distance (m_UIElement.position, m_Camera.position);
+	
 	}
 
 
@@ -46,15 +44,15 @@ public class UIMovementVR : MonoBehaviour
 			// Calculate a target position from the camera in the direction at the same distance from the camera as it was at Start.
 			Vector3 targetPosition = m_Camera.position + targetDirection * m_DistanceFromCamera;
 
-			// Set the target position  to be an interpolation of itself and the UI's position.
-			targetPosition = Vector3.Lerp (m_UIElement.position, targetPosition, m_FollowSpeed * Time.deltaTime);
-
 			// Since the UI is only following on the XZ plane, negate any y movement.
 			if (!followY) {
 				targetPosition.y = m_UIElement.position.y;
-			} else {
-				targetPosition.y -= camYOffset;
-			}
+			} 
+
+			// Set the target position  to be an interpolation of itself and the UI's position.
+			targetPosition = Vector3.Lerp (m_UIElement.position, targetPosition, m_FollowSpeed * Time.deltaTime);
+
+
 
 			// Set the UI's position to the calculated target position.
 			m_UIElement.position = targetPosition;

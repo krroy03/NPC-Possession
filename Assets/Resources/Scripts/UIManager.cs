@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour {
 
 	public Image circleTimer; 
 
+	public GameObject WaveInfo; 
+
 	// Use this for initialization
 	void Start () {
 		SetCircleTimerVal (0f);

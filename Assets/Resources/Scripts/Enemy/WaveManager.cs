@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour {
 
@@ -11,7 +12,8 @@ public class WaveManager : MonoBehaviour {
 	public float waveInterval = 10f; 
 	public float waveTime = 60f; 
 
-
+	private bool inWave = false;
+	private float timer = 0f;
 	public EnemySpawner[] spawners; 
 
 	// Use this for initialization
@@ -26,7 +28,19 @@ public class WaveManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (inWave) {
+			Text[] texts = UIManager.Instance.WaveInfo.GetComponentsInChildren<Text> ();
+			foreach (Text text in texts) {
+			text.text = "Wave " + waveNumber + " : " + (int) timer ;
+			}
+			timer -=Time.deltaTime;
+		} else {
+			Text[] texts = UIManager.Instance.WaveInfo.GetComponentsInChildren<Text> ();
+			foreach (Text text in texts) {
+				text.text = "Break : " + (int) timer;
+			}
+			timer-= Time.deltaTime;
+		}
 	}
 
 	void StartWaves() {
@@ -34,11 +48,16 @@ public class WaveManager : MonoBehaviour {
 			spawners [i].StartWave ();
 		}
 		waveNumber++;
+		inWave = true;
+		timer = waveTime;
 	}
 
 	void StopWaves() {
 		for (int i = 0; i < spawners.Length; i++) {
 			spawners [i].StopWave ();
 		}
+
+		inWave = false;
+		timer = waveInterval;
 	}
 }
