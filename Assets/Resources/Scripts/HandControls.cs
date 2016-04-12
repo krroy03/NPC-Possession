@@ -15,6 +15,7 @@ public class HandControls : MonoBehaviour
 
 	public SoulMovement soul;
 
+	public GameObject controllerModel;
 	// Use this for initialization
 	void Start ()
 	{
@@ -46,6 +47,8 @@ public class HandControls : MonoBehaviour
 		ReturnSoul ();
 	}
 
+
+
 	private bool triedToPickUp = false;
 	void MoveObject ()
 	{
@@ -60,6 +63,9 @@ public class HandControls : MonoBehaviour
 					currentObj.GetComponent<MeshRenderer> ().enabled = true;
 				} else if (currentObj.layer == 8) {
 					currentObj.GetComponent<GravityBody> ().beingControlled = true;
+					// also change colors of object and make hand model invisible. 
+					currentObj.GetComponent<ObjectStats>().PickedUp();
+					controllerModel.SetActive (false);
 				}
 				// indicate that we are picking up an object
 				currentObj.transform.parent = this.transform;
@@ -71,6 +77,8 @@ public class HandControls : MonoBehaviour
 					currentObj.GetComponent<Rigidbody> ().isKinematic = true;
 
 				}
+
+
 			}
 		}
 	}
@@ -90,6 +98,7 @@ public class HandControls : MonoBehaviour
 				} else if (currentObj.layer == 8) {
 					currentObj.GetComponent<GravityBody> ().beingControlled = false;
 					currentObj.GetComponent<GravityBody> ().planet = null;
+					controllerModel.SetActive (true);
 				}
 				// indicate that we have released an object
 				currentObj.transform.SetParent (null);
