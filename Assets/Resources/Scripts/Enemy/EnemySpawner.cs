@@ -37,6 +37,7 @@ public class EnemySpawner : MonoBehaviour {
 
 	public void StopWave() {
 		inWave = false;
+		GameObject.Destroy (spawned);
 		spawned = null;
 	}
 }
