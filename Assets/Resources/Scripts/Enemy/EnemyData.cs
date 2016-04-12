@@ -11,7 +11,7 @@ public class EnemyData : MonoBehaviour {
 	public int hitPoints;
 
 	public SkinnedMeshRenderer bodyMesh;
-	public Material thisMaterial;
+	private Material thisMaterial;
 	// Use this for initialization
 	void Start () {
 		thisMaterial = bodyMesh.material;
@@ -121,6 +121,7 @@ public class EnemyData : MonoBehaviour {
 				CheckForDeath ();
 				// if not dead yet, decrease size
 				DecreaseSize ();
+				GameObject.Destroy (col.gameObject);
 			}
 		}
 	}
