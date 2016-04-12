@@ -81,7 +81,7 @@ public class PossessionMechanic : MonoBehaviour {
 
 					if (lookTime >= timeNeeded / 3.0f) {
 						// we got npc attention
-						lookingAt.GetComponent<NPC> ().LookAtPlayer (currentNPC);
+						lookingAt.GetComponent<NPC> ().LookAtPlayer (this.gameObject);
 					}
 					// after we find npc, don't need to traverse rest of loop
 					break;
@@ -112,14 +112,16 @@ public class PossessionMechanic : MonoBehaviour {
 	 * - make it not visible anymore
 	 * */
 	public void PossessNewNPC(GameObject npc) {
-
-		oldCenter = currentNPC.transform.GetComponent<NPC> ().center;
+		
 
 		if (currentNPC) {
 			// unpossess npc
 			unparentNPCFromCam (currentNPC);
 			// reset old npc position
 			currentNPC.transform.position = oldCenter;
+			oldCenter = currentNPC.transform.GetComponent<NPC> ().center;
+		} else {
+			oldCenter = this.transform.position;
 		}
 		finishedShifting = false;
 		shifting = true;
