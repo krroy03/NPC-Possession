@@ -39,11 +39,11 @@ public class HandControls : MonoBehaviour
 		curPos = this.transform.position;
 		detectDragon();
 		if (dragonPosition != Vector3.zero) {
-			speed = 100f * (dragonPosition - prePos).Normalize() * (1 / Time.deltaTime); 
+			speed = 100f * (dragonPosition - prePos).normalized * (1 / Time.deltaTime); 
 			Debug.Log("enter");
 		} 
 		else {
-			speed = 100f * (curPos - prePos).Normalize() * (1 / Time.deltaTime);
+			speed = 100f * (curPos - prePos).normalized * (1 / Time.deltaTime);
 		}
 		prePos = curPos;
 		MoveObject ();
@@ -79,11 +79,11 @@ public class HandControls : MonoBehaviour
 		bool foundHit = false;
 		RaycastHit hit;
 		//cast a sphereray
-		foundHit = Physics.SphereCast (transform.position, 1, transform.forward, hit, 10);
+		foundHit = Physics.SphereCast(transform.position, 1, transform.forward,out hit, 10);
 		if (foundHit) {
 			// if the ray hits a dragon
-			if (hit.collider.GetComponent<GameObject> ().tag == 11) {
-				Vector3 dragonPosition = hit.collider.GetComponent<GameObject>().transform;
+			if (hit.collider.GetComponent<GameObject> ().layer == 11) {
+				Vector3 dragonPosition = hit.collider.GetComponent<GameObject>().transform.position;
 			}
 		}
 	}
