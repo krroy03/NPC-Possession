@@ -38,7 +38,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	Vector3 smoothMoveVelocity;
 	Rigidbody thisRigidBody;
 
-	public float controllerThresholdY = 0.5f;
+	private float controllerThresholdY = 0.6f;
 	private bool gotThreshold = false;
 	// Use this for initialization
 	void Start ()
@@ -58,7 +58,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	{
 		if (planet && onPlanet && pm.finishedShifting) {
 			if (!gotThreshold) {
-				controllerThresholdY = 2f*player.position.y / 3f;
+				//controllerThresholdY = 2f*player.position.y / 3f;
 				gotThreshold = true;
 			}
 			if (walkingType == WalkingMethod.RotatePlanet) {
