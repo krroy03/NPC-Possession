@@ -56,11 +56,13 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if (!gotThreshold) {
+			controllerThresholdY = player.position.y / 2f;
+			Debug.Log (controllerThresholdY);
+			gotThreshold = true;
+		}
 		if (planet && onPlanet && pm.finishedShifting) {
-			if (!gotThreshold) {
-				//controllerThresholdY = 2f*player.position.y / 3f;
-				gotThreshold = true;
-			}
+			
 			if (walkingType == WalkingMethod.RotatePlanet) {
 				PlanetRotation ();
 			} else if (walkingType == WalkingMethod.RotatePlayer) {

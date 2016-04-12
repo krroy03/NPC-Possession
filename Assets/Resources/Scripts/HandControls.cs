@@ -38,7 +38,7 @@ public class HandControls : MonoBehaviour
 		// throw object velocity 
 		curPos = this.transform.position;
 		detectDragon();
-		Debug.Log (dragonPosition);
+		//Debug.Log (dragonPosition);
 		if (dragonPosition != Vector3.zero) {
 			speed = 10f * (dragonPosition - prePos).normalized * (1 / Time.deltaTime); 
 		} 
