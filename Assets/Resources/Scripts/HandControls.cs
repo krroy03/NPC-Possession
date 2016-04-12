@@ -37,14 +37,7 @@ public class HandControls : MonoBehaviour
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
 		// throw object velocity 
 		curPos = this.transform.position;
-		detectDragon();
-		//Debug.Log (dragonPosition);
-		if (dragonPosition != Vector3.zero) {
-			speed = 10f * (dragonPosition - prePos).normalized * (1 / Time.deltaTime); 
-		} 
-		else {
-			speed = 10f * (curPos - prePos).normalized * (1 / Time.deltaTime);
-		}
+		speed = 100f * (curPos - prePos).normalized * (1 / Time.deltaTime);
 		prePos = curPos;
 		MoveObject ();
 		ReleaseObject ();
@@ -131,6 +124,11 @@ public class HandControls : MonoBehaviour
 				currentObj.transform.SetParent (null);
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> (); 
 				if (rg != null) {
+					// update the dragon Position
+					detectDragon();
+					if (dragonPosition != Vector3.zero) {
+						speed = 100f * (dragonPosition - prePos).normalized * (1 / Time.deltaTime); 
+					} 
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					rg.AddForce (speed);
 					//reset 
@@ -146,7 +144,7 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
-		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
+		if (col.gameObject.layer == 8) {
 			ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
 			if (objThrow.touchingHand) {
 				
