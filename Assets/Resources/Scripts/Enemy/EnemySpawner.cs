@@ -5,21 +5,38 @@ public class EnemySpawner : MonoBehaviour {
 	
 	public GameObject spawnedEnemy;
 
-	public float interval = 20f;
+	private bool inWave = false; 
 
+	private GameObject spawned;
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating ("SpawnObject", 1f, interval);
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+		// spawn a monster each time the previous one is destroyed and wave still ongoing
+		if (inWave) {
+			if (!spawned) {
+				SpawnObject ();
+			}
+		}
 	}
 
-	public void SpawnObject() {
-		GameObject spawned = GameObject.Instantiate (spawnedEnemy, this.transform.position, Quaternion.identity) as GameObject;
+	private void SpawnObject() {
+		spawned = GameObject.Instantiate (spawnedEnemy, this.transform.position, Quaternion.identity) as GameObject;
 		spawned.transform.SetParent (this.transform);
 
+	}
+
+	public void StartWave() {
+		inWave = true; 
+		SpawnObject ();
+	}
+
+	public void StopWave() {
+		inWave = false;
+		spawned = null;
 	}
 }
