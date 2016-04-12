@@ -22,7 +22,6 @@ public class Goal : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col) {
 		if (col.gameObject.layer == 11) {
-			Debug.Log ("hit dragon");
 			// a monster has hit the treasure
 			col.gameObject.GetComponent<EnemyBehavior>().HitGoal();
 			currentHitPoints--;

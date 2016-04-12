@@ -70,7 +70,6 @@ public class HandControls : MonoBehaviour
 				// indicate that we are picking up an object
 				currentObj.transform.parent = this.transform;
 				movingObj = true;
-				triedToPickUp = true;
 
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> ();
 				if (rg != null) {
@@ -102,7 +101,6 @@ public class HandControls : MonoBehaviour
 				}
 				// indicate that we have released an object
 				currentObj.transform.SetParent (null);
-				triedToRelease = true;
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> (); 
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
@@ -110,6 +108,7 @@ public class HandControls : MonoBehaviour
 				}
 				movingObj = false;
 				currentObj = null;
+
 			}
 		}
 	}
@@ -127,16 +126,6 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerEnter (Collider col)
 	{
-		if (triedToPickUp) {
-			triedToPickUp = false;
-			//return;
-		}
-
-		if (triedToRelease) {
-			triedToRelease = false;
-			//return;
-		}
-
 		if (!movingObj && !currentObj) {
 			if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 				ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
@@ -159,27 +148,30 @@ public class HandControls : MonoBehaviour
 
 	void OnTriggerExit (Collider col)
 	{
-		if (triedToPickUp) {
-			//return;
-		}
-
-		if (triedToRelease) {
-			//return;
-		}
 		if (col.gameObject.layer == 8 || col.gameObject.tag == "Soul") {
 			ObjectThrow objThrow = col.gameObject.GetComponent<ObjectThrow> ();
 			if (objThrow.touchingHand) {
-				// change color of object we are not touching anymore
-				ObjectStats objColor = col.gameObject.GetComponent<ObjectStats> ();
-				objColor.NotTouchingHands ();
+				
 				// change values to indicate we are not touching it
 				if (left && objThrow.hand == 1) {
+					if (col.gameObject.GetComponent<Rigidbody> ().isKinematic) {
+						return;
+					}
+					// change color of object we are not touching anymore
+					ObjectStats objColor = col.gameObject.GetComponent<ObjectStats> ();
+					objColor.NotTouchingHands ();
 					objThrow.touchingHand = false;
 					objThrow.hand = 0;
 					currentObj = null;
 					movingObj = false;
 				}
 				if (!left && objThrow.hand == 2) {
+					if (col.gameObject.GetComponent<Rigidbody> ().isKinematic) {
+						return;
+					}
+					// change color of object we are not touching anymore
+					ObjectStats objColor = col.gameObject.GetComponent<ObjectStats> ();
+					objColor.NotTouchingHands ();
 					objThrow.touchingHand = false;
 					objThrow.hand = 0;
 					currentObj = null;

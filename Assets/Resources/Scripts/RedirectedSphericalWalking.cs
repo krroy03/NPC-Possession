@@ -148,7 +148,6 @@ public class RedirectedSphericalWalking : MonoBehaviour
 		temp *= rotationScale;
 		if (leftController.localPosition.y >= controllerThresholdY && rightController.localPosition.y >= controllerThresholdY) {
 			// only rotate the planet if controllers not below threshold 
-			Debug.Log ("Planet Rotating");
 			planet.Rotate (temp, Space.World);
 		}
 		oldPos = newPos;

@@ -58,7 +58,6 @@ public class PossessionMechanic : MonoBehaviour {
 		if (!shifting) {
 			// only cast ray when not shifting 
 			RaycastHit[] hits;
-			Debug.DrawRay (head.transform.position, head.transform.forward, Color.green);
 			hits = Physics.RaycastAll (head.transform.position, head.transform.forward, 100f);
 			bool hitNPC = false; 
 			for (int i = 0; i < hits.Length; i++) {
@@ -216,28 +215,6 @@ public class PossessionMechanic : MonoBehaviour {
 		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 1f);
 	
 	}
-
-
-
-	// used for debugging without Vive
-	private GameObject GetRandomNPC(){
-		int maxRange = npcList.childCount;
-		bool foundChild = false; 
-		int count = 0;
-		GameObject child = null; 
-
-		while (!foundChild && count < 5) {
-			child = npcList.GetChild (Random.Range (0, maxRange)).gameObject;
-			if (child.GetComponent<NPC> ().visible) {
-				foundChild = true;
-			}
-			count++;
-		}
-
-		return child;
-
-	}
-
 
 
 }
