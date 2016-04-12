@@ -16,6 +16,10 @@ public class ObjectSpawner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		center = this.transform.position;
+		// immediately spawn 20 objects for each 
+		for (int i = 0; i < maxCount; i ++) {
+			SpawnObject();
+		}
 		InvokeRepeating ("SpawnObject", 0f, interval);
 	}
 	

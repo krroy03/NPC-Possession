@@ -5,7 +5,7 @@ public class ObjectMovement : MonoBehaviour {
 
 	public Vector3 planetPos; 
 	private bool movingToSpawnPos = false;
-	private float speed = 2.5f;
+	private float speed = 4f;
 	// Use this for initialization
 	void Start () {
 	
