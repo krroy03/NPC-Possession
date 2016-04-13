@@ -31,14 +31,9 @@ public class HandControls : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (left)
-			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Leftmost);
-		else
-			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
 		// throw object velocity 
 		curPos = this.transform.position;
-		speed = 50f * (curPos - prePos) / Time.deltaTime;
-
+		speed = (curPos - prePos) / Time.deltaTime;
 		MoveObject ();
 		ReleaseObject ();
 		prePos = curPos;
@@ -75,14 +70,9 @@ public class HandControls : MonoBehaviour
 		//cast a sphereray
 		int mask = 1 << 11;
 		foundHit = Physics.SphereCast(transform.position, 20, (curPos - prePos).normalized ,out hit, 100, mask);
-		Debug.Log ("enter");
-		Debug.DrawRay (this.transform.position, (curPos - prePos).normalized * 100f, Color.magenta, 100, false);
 		if (foundHit) {
 			// if the ray hits a dragon
-			//if (hit.collider.gameObject.layer == 11) {
-				Debug.Log ("find");
 				dragonTransform = hit.collider.gameObject.transform;
-			//}
 		}
 	}
 
@@ -136,7 +126,8 @@ public class HandControls : MonoBehaviour
 					if (dragonTransform != null) {
 						Debug.Log ("findDragon");
 						currentObj.GetComponent<ObjectThrow> ().target = dragonTransform;
-						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude * 0.01f;
+						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude;
+						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude;
 						//reset 
 						dragonTransform = null;
 					} 
