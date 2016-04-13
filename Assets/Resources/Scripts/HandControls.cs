@@ -10,7 +10,7 @@ public class HandControls : MonoBehaviour
 	Vector3 speed;
 	Vector3 prePos;
 	Vector3 curPos;
-	Vector3 dragonPosition = Vector3.zero;
+	Transform dragonTransform = null;
 	public bool left;
 
 	public GameObject controllerModel;
@@ -37,7 +37,7 @@ public class HandControls : MonoBehaviour
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
 		// throw object velocity 
 		curPos = this.transform.position;
-		speed = 100f * (curPos - prePos).normalized * (1 / Time.deltaTime);
+		speed = 50f * (curPos - prePos) / Time.deltaTime;
 		prePos = curPos;
 		MoveObject ();
 		ReleaseObject ();
@@ -65,19 +65,23 @@ public class HandControls : MonoBehaviour
 				}
 			}
 		}
-	}
+	} 
 
 	void detectDragon ()
 	{
 		bool foundHit = false;
 		RaycastHit hit;
 		//cast a sphereray
-		foundHit = Physics.SphereCast(transform.position, 10, transform.forward,out hit, 100);
+		int mask = 1 << 11;
+		foundHit = Physics.SphereCast(transform.position, 20, (curPos - prePos).normalized ,out hit, 100, mask);
+		Debug.Log ("enter");
+		Debug.DrawRay (this.transform.position, (curPos - prePos).normalized * 100f, Color.magenta, 100, true);
 		if (foundHit) {
 			// if the ray hits a dragon
-			if (hit.collider.gameObject.layer == 11) {
-				dragonPosition = hit.collider.gameObject.transform.position;
-			}
+			//if (hit.collider.gameObject.layer == 11) {
+				Debug.Log ("find");
+				dragonTransform = hit.collider.gameObject.transform;
+			//}
 		}
 	}
 
@@ -126,13 +130,21 @@ public class HandControls : MonoBehaviour
 				if (rg != null) {
 					// update the dragon Position
 					detectDragon();
-					if (dragonPosition != Vector3.zero) {
-						speed = 100f * (dragonPosition - prePos).normalized * (1 / Time.deltaTime); 
-					} 
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-					rg.AddForce (speed);
-					//reset 
-					dragonPosition = Vector3.zero;
+					//auto target to dragon
+					if (dragonTransform != null) {
+						Debug.Log ("findDragon");
+						currentObj.GetComponent<ObjectThrow> ().target = dragonTransform;
+						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude * 50f;
+						//reset 
+						dragonTransform = null;
+					} 
+					//did not detect the dragon 
+					else 
+					{
+						rg.AddForce(speed);
+					}
+
 				}
 				movingObj = false;
 				currentObj = null;
