@@ -10,7 +10,7 @@ public class HandControls : MonoBehaviour
 	Vector3 speed;
 	Vector3 prePos;
 	Vector3 curPos;
-	Vector3 dragonPosition = Vector3.zero;
+	Transform dragonTransform = null;
 	public bool left;
 
 	public GameObject controllerModel;
@@ -37,7 +37,7 @@ public class HandControls : MonoBehaviour
 			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
 		// throw object velocity 
 		curPos = this.transform.position;
-		speed = 100f * (curPos - prePos).normalized * (1 / Time.deltaTime);
+		speed = 100f * (curPos - prePos) / Time.deltaTime;
 		prePos = curPos;
 		MoveObject ();
 		ReleaseObject ();
@@ -76,7 +76,7 @@ public class HandControls : MonoBehaviour
 		if (foundHit) {
 			// if the ray hits a dragon
 			if (hit.collider.gameObject.layer == 11) {
-				dragonPosition = hit.collider.gameObject.transform.position;
+				dragonTransform = hit.collider.gameObject.transform;
 			}
 		}
 	}
@@ -125,14 +125,21 @@ public class HandControls : MonoBehaviour
 				Rigidbody rg = currentObj.GetComponent<Rigidbody> (); 
 				if (rg != null) {
 					// update the dragon Position
-					detectDragon();
-					if (dragonPosition != Vector3.zero) {
-						speed = 100f * (dragonPosition - prePos).normalized * (1 / Time.deltaTime); 
-					} 
+					detectDragon ();
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-					rg.AddForce (speed);
-					//reset 
-					dragonPosition = Vector3.zero;
+					//auto target to dragon
+					if (dragonTransform != null) {
+						currentObj.GetComponent<ObjectThrow> ().target = dragonTransform;
+						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude;
+						//reset 
+						dragonTransform = null;
+					} 
+					//did not detect the dragon 
+					else 
+					{
+						rg.AddForce(speed);
+					}
+
 				}
 				movingObj = false;
 				currentObj = null;
