@@ -38,9 +38,10 @@ public class HandControls : MonoBehaviour
 		// throw object velocity 
 		curPos = this.transform.position;
 		speed = 50f * (curPos - prePos) / Time.deltaTime;
-		prePos = curPos;
+
 		MoveObject ();
 		ReleaseObject ();
+		prePos = curPos;
 	}
 
 	void OnTriggerEnter (Collider col)
@@ -75,7 +76,7 @@ public class HandControls : MonoBehaviour
 		int mask = 1 << 11;
 		foundHit = Physics.SphereCast(transform.position, 20, (curPos - prePos).normalized ,out hit, 100, mask);
 		Debug.Log ("enter");
-		Debug.DrawRay (this.transform.position, (curPos - prePos).normalized * 100f, Color.magenta, 100, true);
+		Debug.DrawRay (this.transform.position, (curPos - prePos).normalized * 100f, Color.magenta, 100, false);
 		if (foundHit) {
 			// if the ray hits a dragon
 			//if (hit.collider.gameObject.layer == 11) {
