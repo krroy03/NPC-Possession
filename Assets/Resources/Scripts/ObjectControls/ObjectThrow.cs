@@ -29,7 +29,6 @@ public class ObjectThrow : MonoBehaviour {
 	void Update ()
 	{
 		if (speed != 0) {
-			Debug.Log (target.gameObject);
 			transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 		}
 	}
