@@ -29,6 +29,17 @@ public class UIManager : MonoBehaviour {
 	public Text DefendOrb; 
 
 	public Text OrbHP;
+
+	public Text CubePickUp;
+
+	public Text CubeRelease; 
+
+	public Text WaveStarting;
+
+	public Text Score; 
+
+	public GameObject waves; 
+
 	// Use this for initialization
 	void Start () {
 		SetCircleTimerVal (0f);
@@ -41,5 +52,28 @@ public class UIManager : MonoBehaviour {
 
 	public void SetCircleTimerVal(float val) {
 		circleTimer.fillAmount = val;
+	}
+
+	public void TeleportedForFirstTime() {
+		TeleportHelper.enabled = false;
+		DefendOrb.enabled = false;
+		CubePickUp.enabled = true;
+	}
+
+	public void PickedUpForFirstTime() {
+		CubePickUp.enabled = false;
+		CubeRelease.enabled = true;
+	}
+
+	public void ThrewForFirstTime() {
+		CubeRelease.enabled = false;
+		WaveStarting.enabled = false;
+		waves.SetActive (true);
+	}
+
+	public void ShowScore() {
+		OrbHP.enabled = false;
+		Score.text += WaveManager.score;
+		Score.enabled = true;
 	}
 }

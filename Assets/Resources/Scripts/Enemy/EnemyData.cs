@@ -12,6 +12,8 @@ public class EnemyData : MonoBehaviour {
 
 	public SkinnedMeshRenderer bodyMesh;
 	private Material thisMaterial;
+
+	private int score = 0;
 	// Use this for initialization
 	void Start () {
 		thisMaterial = bodyMesh.material;
@@ -93,6 +95,7 @@ public class EnemyData : MonoBehaviour {
 
 	private void RandomizeSize() {
 		size = Random.Range (1, 4);
+		score = size; 
 	}
 	private void SetSize() {
 		this.transform.localScale *= size;
@@ -110,6 +113,7 @@ public class EnemyData : MonoBehaviour {
 	}
 
 	private void Dead() {
+		WaveManager.score += score;
 		GameObject.Destroy (this.gameObject);
 	}
 

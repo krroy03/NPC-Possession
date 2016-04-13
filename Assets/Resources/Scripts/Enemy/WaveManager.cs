@@ -9,7 +9,7 @@ public class WaveManager : MonoBehaviour {
 
 	public int waveNumber = 0;
 
-	public float waveInterval = 10f; 
+	public float waveInterval = 15f; 
 	public float waveTime = 60f; 
 
 	private bool inWave = false;
@@ -40,6 +40,10 @@ public class WaveManager : MonoBehaviour {
 				text.text = "Break : " + (int) timer;
 			}
 			timer-= Time.deltaTime;
+		}
+
+		if (gameOver) {
+			this.gameObject.SetActive (false);
 		}
 	}
 

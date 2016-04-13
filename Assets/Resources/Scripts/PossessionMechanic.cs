@@ -133,11 +133,11 @@ public class PossessionMechanic : MonoBehaviour {
 		// teleported for the first time 
 		// so remove teleport ui 
 		if (shiftCount == 1) {
-			UIManager.Instance.TeleportHelper.enabled = false;
-			UIManager.Instance.DefendOrb.enabled = false;
+			UIManager.Instance.TeleportedForFirstTime ();
 		}
 
 	}
+
 
 
 	private void parentNPCToCam(GameObject npc) {

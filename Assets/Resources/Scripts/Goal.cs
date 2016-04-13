@@ -23,6 +23,14 @@ public class Goal : MonoBehaviour {
 			col.gameObject.GetComponent<EnemyBehavior>().HitGoal();
 			currentHitPoints--;
 			UIManager.Instance.OrbHP.text = "" + currentHitPoints;
+			if (currentHitPoints <= 0) {
+				
+			}
 		}
+	}
+
+	void GameOver() {
+		WaveManager.gameOver = true;
+		UIManager.Instance.ShowScore ();
 	}
 }
