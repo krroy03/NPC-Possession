@@ -112,17 +112,16 @@ public class PossessionMechanic : MonoBehaviour {
 	 * - make it not visible anymore
 	 * */
 	public void PossessNewNPC(GameObject npc) {
-		
-
 		if (currentNPC) {
 			// unpossess npc
 			unparentNPCFromCam (currentNPC);
 			// reset old npc position
-			currentNPC.transform.position = oldCenter;
-			oldCenter = currentNPC.transform.GetComponent<NPC> ().center;
+			currentNPC.transform.position = currentNPC.transform.GetComponent<NPC> ().center;
+			oldCenter = currentNPC.transform.position;
 		} else {
 			oldCenter = this.transform.position;
 		}
+
 		finishedShifting = false;
 		shifting = true;
 		currentNPC = npc;
@@ -137,6 +136,7 @@ public class PossessionMechanic : MonoBehaviour {
 			UIManager.Instance.TeleportHelper.enabled = false;
 			UIManager.Instance.DefendOrb.enabled = false;
 		}
+
 	}
 
 
