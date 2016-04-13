@@ -68,7 +68,7 @@ public class HandControls : MonoBehaviour
 		RaycastHit hit;
 		//cast a sphereray
 		int mask = 1 << 11;
-		foundHit = Physics.SphereCast(transform.position, 20, (curPos - prePos).normalized ,out hit, 100, mask);
+		foundHit = Physics.SphereCast(transform.position,5, (curPos - prePos).normalized ,out hit, 100, mask);
 		if (foundHit) {
 			// if the ray hits a dragon
 				dragonTransform = hit.collider.gameObject.transform;
@@ -122,14 +122,14 @@ public class HandControls : MonoBehaviour
 					//auto target to dragon
 					if (dragonTransform != null) {
 						currentObj.GetComponent<ObjectThrow> ().target = dragonTransform;
-						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude;
+						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude*2f;
 						//reset 
 						dragonTransform = null;
 					} 
 					//did not detect the dragon 
 					else 
 					{
-						rg.AddForce(speed * 0.01f);
+						rg.AddForce(speed*100f);
 					}
 
 				}
