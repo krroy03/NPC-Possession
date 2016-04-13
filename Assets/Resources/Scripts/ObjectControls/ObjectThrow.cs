@@ -28,7 +28,7 @@ public class ObjectThrow : MonoBehaviour {
 
 	void Update ()
 	{
-		if (speed != 0) {
+		if (speed != 0 && target) {
 			transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 		}
 	}

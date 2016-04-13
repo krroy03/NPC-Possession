@@ -136,14 +136,14 @@ public class HandControls : MonoBehaviour
 					if (dragonTransform != null) {
 						Debug.Log ("findDragon");
 						currentObj.GetComponent<ObjectThrow> ().target = dragonTransform;
-						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude * 50f;
+						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude * 0.01f;
 						//reset 
 						dragonTransform = null;
 					} 
 					//did not detect the dragon 
 					else 
 					{
-						rg.AddForce(speed);
+						rg.AddForce(speed * 0.01f);
 					}
 
 				}
