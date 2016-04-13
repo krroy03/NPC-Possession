@@ -25,7 +25,7 @@ public class UIMovementVR : MonoBehaviour
 	private void Start ()
 	{
 		// Find the distance from the UI to the camera so the UI can remain at that distance.
-		m_DistanceFromCamera = Vector3.Distance (m_UIElement.position, m_Camera.position);
+		//m_DistanceFromCamera = Vector3.Distance (m_UIElement.position, m_Camera.position);
 	
 	}
 

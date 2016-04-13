@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		SetCircleTimerVal (0f);
+		TeleportHelper.gameObject.SetActive (true);
+		DefendOrb.gameObject.SetActive (true);
 	}
 	
 	// Update is called once per frame
@@ -55,25 +57,27 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void TeleportedForFirstTime() {
-		TeleportHelper.enabled = false;
-		DefendOrb.enabled = false;
-		CubePickUp.enabled = true;
+		TeleportHelper.gameObject.SetActive (false);
+		DefendOrb.gameObject.SetActive (false);
+		OrbHP.gameObject.SetActive (true);
+		CubePickUp.gameObject.SetActive (true);
 	}
 
 	public void PickedUpForFirstTime() {
-		CubePickUp.enabled = false;
-		CubeRelease.enabled = true;
+		CubePickUp.gameObject.SetActive (false);
+		CubeRelease.gameObject.SetActive (true);
 	}
 
 	public void ThrewForFirstTime() {
-		CubeRelease.enabled = false;
-		WaveStarting.enabled = false;
+		CubeRelease.gameObject.SetActive (false);
+		WaveStarting.gameObject.SetActive (false);
+		WaveInfo.SetActive (true);
 		waves.SetActive (true);
 	}
 
 	public void ShowScore() {
-		OrbHP.enabled = false;
+		OrbHP.gameObject.SetActive (false);
 		Score.text += WaveManager.score;
-		Score.enabled = true;
+		Score.gameObject.SetActive (true);
 	}
 }
