@@ -13,7 +13,6 @@ public class HandControls : MonoBehaviour
 	Transform dragonTransform = null;
 	public bool left;
 
-	public GameObject controllerModel;
 	// Use this for initialization
 	void Start ()
 	{	
@@ -89,7 +88,6 @@ public class HandControls : MonoBehaviour
 					currentObj.GetComponent<GravityBody> ().beingControlled = true;
 					// also change colors of object and make hand model invisible. 
 					currentObj.GetComponent<ObjectStats> ().PickedUp ();
-					controllerModel.SetActive (false);
 				}
 				// indicate that we are picking up an object
 				currentObj.transform.parent = this.transform;
@@ -113,7 +111,6 @@ public class HandControls : MonoBehaviour
 				if (currentObj.layer == 8) {
 					currentObj.GetComponent<GravityBody> ().beingControlled = false;
 					currentObj.GetComponent<GravityBody> ().planet = null;
-					controllerModel.SetActive (true);
 				}
 				// indicate that we have released an object
 				currentObj.transform.SetParent (null);
@@ -124,9 +121,7 @@ public class HandControls : MonoBehaviour
 					currentObj.GetComponent<Rigidbody> ().isKinematic = false;
 					//auto target to dragon
 					if (dragonTransform != null) {
-						Debug.Log ("findDragon");
 						currentObj.GetComponent<ObjectThrow> ().target = dragonTransform;
-						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude;
 						currentObj.GetComponent<ObjectThrow> ().speed = speed.magnitude;
 						//reset 
 						dragonTransform = null;

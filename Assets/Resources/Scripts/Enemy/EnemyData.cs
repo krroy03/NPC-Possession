@@ -121,8 +121,8 @@ public class EnemyData : MonoBehaviour {
 				CheckForDeath ();
 				// if not dead yet, decrease size
 				DecreaseSize ();
-				GameObject.Destroy (col.gameObject);
 			}
+			GameObject.Destroy (col.gameObject);
 		}
 	}
 }
