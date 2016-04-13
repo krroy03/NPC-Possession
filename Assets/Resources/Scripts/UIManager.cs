@@ -75,6 +75,9 @@ public class UIManager : MonoBehaviour {
 		waves.SetActive (true);
 	}
 
+	public void WaveStarted() {
+		WaveStarting.gameObject.SetActive (false);
+	}
 	public void ShowScore() {
 		OrbHP.gameObject.SetActive (false);
 		Score.text += WaveManager.score;

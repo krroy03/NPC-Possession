@@ -54,6 +54,10 @@ public class WaveManager : MonoBehaviour {
 		waveNumber++;
 		inWave = true;
 		timer = waveTime;
+
+		if (waveNumber == 1) {
+			UIManager.Instance.WaveStarted ();
+		}
 	}
 
 	void StopWaves() {
