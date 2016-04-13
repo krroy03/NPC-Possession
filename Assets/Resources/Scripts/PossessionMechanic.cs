@@ -18,7 +18,7 @@ public class PossessionMechanic : MonoBehaviour {
 	public int shiftCount = 0;
 
 
-	private float shiftStopDist = 0.01f;
+	private float shiftStopDist = 0.2f;
 
 
 	// variables for looking at an NPC
