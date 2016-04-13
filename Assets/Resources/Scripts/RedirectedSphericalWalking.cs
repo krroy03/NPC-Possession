@@ -57,7 +57,7 @@ public class RedirectedSphericalWalking : MonoBehaviour
 	void Update ()
 	{
 		if (!gotThreshold) {
-			controllerThresholdY = player.position.y / 2f;
+			controllerThresholdY = player.position.y / 3f;
 			gotThreshold = true;
 		}
 		if (planet && onPlanet && pm.finishedShifting) {
