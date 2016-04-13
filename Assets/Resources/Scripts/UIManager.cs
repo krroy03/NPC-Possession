@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour {
 			if (mInstance)
 				return mInstance;
 			else {
-				mInstance = GameObject.Find ("PlayerUI").GetComponent<UIManager> ();
+				mInstance = GameObject.Find ("GameUI").GetComponent<UIManager> ();
 				return mInstance;
 			}
 		}
@@ -24,6 +24,11 @@ public class UIManager : MonoBehaviour {
 
 	public GameObject WaveInfo; 
 
+	public Text TeleportHelper; 
+
+	public Text DefendOrb; 
+
+	public Text OrbHP;
 	// Use this for initialization
 	void Start () {
 		SetCircleTimerVal (0f);

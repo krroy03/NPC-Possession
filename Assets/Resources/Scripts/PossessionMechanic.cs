@@ -131,6 +131,12 @@ public class PossessionMechanic : MonoBehaviour {
 		transition.StartFX ();
 		moveSound.Play ();
 		shiftCount++;
+		// teleported for the first time 
+		// so remove teleport ui 
+		if (shiftCount == 1) {
+			UIManager.Instance.TeleportHelper.enabled = false;
+			UIManager.Instance.DefendOrb.enabled = false;
+		}
 	}
 
 
