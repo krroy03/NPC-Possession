@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour {
 
 	public void ThrewForFirstTime() {
 		CubeRelease.gameObject.SetActive (false);
-		WaveStarting.gameObject.SetActive (false);
+		WaveStarting.gameObject.SetActive (true);
 		WaveInfo.SetActive (true);
 		waves.SetActive (true);
 	}

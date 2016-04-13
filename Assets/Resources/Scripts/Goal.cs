@@ -24,7 +24,7 @@ public class Goal : MonoBehaviour {
 			currentHitPoints--;
 			UIManager.Instance.OrbHP.text = "" + currentHitPoints;
 			if (currentHitPoints <= 0) {
-				
+				GameOver ();
 			}
 		}
 	}
