@@ -38,6 +38,12 @@ public class HandControls : MonoBehaviour
 		prePos = curPos;
 	}
 
+	void FixedUpdate() {
+		if (left)
+			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Leftmost);
+		else
+			deviceIndex = SteamVR_Controller.GetDeviceIndex (SteamVR_Controller.DeviceRelation.Rightmost);
+	}
 	void OnTriggerEnter (Collider col)
 	{	
 		//not moving object and no object in hands
