@@ -23,12 +23,19 @@ public class EnemyBehavior : MonoBehaviour {
 		GameObject.Destroy (this.gameObject);
 	}
 
+	private bool textActive = true;
+
 	private void MoveTo(Vector3 pos) {
 		Vector3 moveDir = pos - this.transform.position;
 		this.transform.Translate (moveDir * Time.deltaTime * speed, Space.World);
 
 		if (Vector3.Distance (this.transform.position, pos) <= 1f) {
 			HitGoal ();
+		}
+
+		if ((Vector3.Distance(this.transform.position, pos) <= 15f) && textActive) {
+			textActive = false;
+			this.GetComponent<EnemyUI> ().myText.enabled = false;
 		}
 	}
 }
