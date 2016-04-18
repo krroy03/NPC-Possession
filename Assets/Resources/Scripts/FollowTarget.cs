@@ -6,6 +6,7 @@ public class FollowTarget : MonoBehaviour {
 
 	public bool followTarget = true;
 
+	public float yVal = 0f;
 	// Use this for initialization
 	void Start () {
 	
@@ -20,7 +21,7 @@ public class FollowTarget : MonoBehaviour {
 
 
 	void FollowTargetPos() {
-		Vector3 temp = new Vector3 (target.position.x, 0f, target.position.z);
+		Vector3 temp = new Vector3 (target.position.x, yVal, target.position.z);
 		this.transform.position = temp;
 	}
 }

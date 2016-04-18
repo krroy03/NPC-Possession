@@ -20,7 +20,6 @@ public class EnemyBehavior : MonoBehaviour {
 
 
 	public void HitGoal() {
-
 		GameObject.Destroy (this.gameObject);
 	}
 

@@ -15,7 +15,6 @@ public class WaveManager : MonoBehaviour {
 	private bool inWave = false;
 	private float timer = 0f;
 	public EnemySpawner[] spawners; 
-
 	// Use this for initialization
 	void Start () {
 

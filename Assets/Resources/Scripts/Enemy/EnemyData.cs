@@ -15,7 +15,7 @@ public class EnemyData : MonoBehaviour {
 
 	private int score = 0;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		thisMaterial = bodyMesh.material;
 		RandomizeSize ();
 		SetSize ();
