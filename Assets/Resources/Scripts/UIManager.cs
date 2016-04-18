@@ -40,6 +40,10 @@ public class UIManager : MonoBehaviour {
 
 	public GameObject waves; 
 
+
+	public static bool firstTimePickUp = true;
+
+	public static bool firstTimeRelease = true;
 	// Use this for initialization
 	void Start () {
 		SetCircleTimerVal (0f);

@@ -75,7 +75,6 @@ public class HandControls : MonoBehaviour
 		}
 	}
 
-	private bool firstTimePickUp = true;
 
 	void MoveObject ()
 	{	
@@ -98,15 +97,14 @@ public class HandControls : MonoBehaviour
 				if (rg != null) {
 					currentObj.GetComponent<Rigidbody> ().isKinematic = true;
 				}
-				if (firstTimePickUp) {
+				if (UIManager.firstTimePickUp) {
 					UIManager.Instance.PickedUpForFirstTime ();
-					firstTimePickUp = false;
+					UIManager.firstTimePickUp = false;
 				}
 			}
 		}
 	}
 
-	private bool firstTimeRelease = true;
 
 	void ReleaseObject ()
 	{
@@ -144,9 +142,9 @@ public class HandControls : MonoBehaviour
 				movingObj = false;
 				currentObj = null;
 
-				if (firstTimeRelease) {
+				if (UIManager.firstTimeRelease) {
 					UIManager.Instance.ThrewForFirstTime ();
-					firstTimeRelease = false;
+					UIManager.firstTimeRelease = false;
 				}
 			}
 		}
